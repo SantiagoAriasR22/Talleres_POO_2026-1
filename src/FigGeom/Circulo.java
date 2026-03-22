@@ -3,7 +3,6 @@ import java.math.*;
 
 	public class Circulo {
 
-	protected String tipo="Circulo";
 	protected double diametro;
 	protected String id;
 	private String color;
@@ -14,7 +13,7 @@ import java.math.*;
 		this.color=color;
 	}
 	
-	//getter
+	//getters
 	public String getColor() {
 		return color;
 	}
@@ -22,10 +21,11 @@ import java.math.*;
 	public String getID(){ return id; }
 	
 	//setters
-	public void setDiametro(double diametro) {
-		this.diametro=diametro;
-	}
-	
+	public void setDiametro(double diametro) { this.diametro=diametro; }
+
+	public void setColor(String color){ this.color=color; }
+
+	//methods
 	public double doCalcularPerimetro() {
 		return Math.PI*diametro;
 	}

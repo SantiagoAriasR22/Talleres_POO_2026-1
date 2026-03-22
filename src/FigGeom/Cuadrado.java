@@ -2,7 +2,6 @@ package FigGeom;
 
 public class Cuadrado {
 
-	protected String tipo="Cuadrado";
 	protected double lado;
 	protected String id;
 	private String color;
@@ -30,7 +29,9 @@ public class Cuadrado {
 		this.lado=lado;
 	}
 
+	public void setColor(String color){ this.color=color; }
 
+	//methods
 	public double doCalcularPerimetro() {
 		return 4*lado;
 	}

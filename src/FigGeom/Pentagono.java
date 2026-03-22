@@ -3,7 +3,6 @@ import java.math.*;
 
 public class Pentagono {
 
-	protected String tipo="Pentagono";
 	protected double lado;
 	protected String id;
 	private String color;
@@ -31,7 +30,9 @@ public class Pentagono {
 		this.lado=lado;
 	}
 
+	public void setColor(String color){ this.color=color; }
 
+	//methods
 	public double doCalcularPerimetro() {
 		return lado*5;
 	}

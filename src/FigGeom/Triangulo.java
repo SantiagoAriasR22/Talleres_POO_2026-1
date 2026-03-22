@@ -3,7 +3,6 @@ import java.math.*;
 
 public class Triangulo {
 
-	protected String tipo="Triang";
 	protected double lado1;
 	protected double lado2;
 	protected double lado3;
@@ -50,7 +49,9 @@ public class Triangulo {
 		this.lado3=lado3;
 	}
 
+	public void setColor(String color){ this.color=color; }
 
+	//methods
 	public double doCalcularPerimetro() {
 		return lado1+lado2+lado3;
 	}

@@ -2,7 +2,6 @@ package FigGeom;
 
 public class Rectangulo {
 
-	protected String tipo="Rectangulo";
 	protected double altura;
 	protected double base;
 	protected String id;
@@ -39,7 +38,9 @@ public class Rectangulo {
 		this.base = base;
 	}
 
+	public void setColor(String color){ this.color=color; }
 
+	//methods
 	public double doCalcularPerimetro() {
 		return (2 * altura) + (2 * base);
 	}
