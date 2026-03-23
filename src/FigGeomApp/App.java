@@ -75,6 +75,21 @@ public class App {
 						case 4: actualizarPentagono(index2); break;
 						case 5: actualizarTriangulo(index2); break;
 					}
+					break;
+					case 3:
+						ArrayList<FiguraAux> lista = juntarFiguras();
+
+						lista.sort((f1, f2) -> {
+							int cmp = f1.getColor().compareTo(f2.getColor());
+							if (cmp == 0) {
+								return Double.compare(f1.getArea(), f2.getArea());
+							}
+							return cmp;
+						});
+						for (FiguraAux f : lista) {
+							System.out.println(f.getTipo() + " (" + f.getId() + " ) " + f.getColor() + " | " + f.getArea());
+						}
+						break;
 
 
 
@@ -372,6 +387,37 @@ public class App {
 				System.out.printf("Perimetro: %.2f\n", triangle.get(index).doCalcularPerimetro());
 				break;
 		}
+	}
+	static ArrayList<FiguraAux> juntarFiguras() {
+
+		ArrayList<FiguraAux> lista = new ArrayList<>();
+
+		for (Circulo c : circle) {
+			lista.add(new FiguraAux("circulo", c.getID(), c.getColor(),
+					c.doCalcularArea(), c.doCalcularPerimetro()));
+		}
+
+		for (Cuadrado c : square) {
+			lista.add(new FiguraAux("cuadrado", c.getID(), c.getColor(),
+					c.doCalcularArea(), c.doCalcularPerimetro()));
+		}
+
+		for (Rectangulo r : rectangle) {
+			lista.add(new FiguraAux("rectangulo", r.getID(), r.getColor(),
+					r.doCalcularArea(), r.doCalcularPerimetro()));
+		}
+
+		for (Pentagono p : pentagon) {
+			lista.add(new FiguraAux("pentagono", p.getID(), p.getColor(),
+					p.doCalcularArea(), p.doCalcularPerimetro()));
+		}
+
+		for (Triangulo t : triangle) {
+			lista.add(new FiguraAux("triangulo", t.getID(), t.getColor(),
+					t.doCalcularArea(), t.doCalcularPerimetro()));
+		}
+
+		return lista;
 	}
 
 	static int menuFigura(){
