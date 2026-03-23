@@ -16,6 +16,7 @@ public class App {
 	static ArrayList<Rectangulo> rectangle;
 	static ArrayList<Pentagono> pentagon;
 	static ArrayList<Triangulo> triangle;
+	public record resultadoBusqueda(int i, int figura, boolean encontrado) {}
 
 	public App() {
 		circle = new ArrayList<Circulo>();
@@ -38,115 +39,100 @@ public class App {
 			switch (menu){
 
 				case 1:
-					int figura=menuFigura();
 
 					System.out.println("Ingrese la ID de la figura que quiere mostrar");
 					String idBuscada=sc.next();
 
-					int index=buscarID(idBuscada, figura);
+					resultadoBusqueda resultado = buscarID(idBuscada);
 
-					if(index==-1){
+					if(!resultado.encontrado){
 						System.out.println("Figura no encontrada");
 						break;
 					}
 
-					mostrarAreayPerimetro(index, figura);
+					mostrarAreayPerimetro(resultado.i, resultado.figura);
 
 					break;
 
 				case 2:
 
-					int figura2=menuFigura();
-
 					System.out.println("Ingrese la ID de la figura que quiere modificar");
 					String idBuscada2=sc.next();
 
-					int index2=buscarID(idBuscada2, figura2);
+					resultadoBusqueda resultado2=buscarID(idBuscada2);
 
-					if(index2==-1){
+					if(!resultado2.encontrado){
 						System.out.println("Figura no encontrada");
 						break;
 					}
 
-					switch(figura2){
-						case 1: actualizarCirculo(index2); break;
-						case 2: actualizarCuadrado(index2); break;
-						case 3: actualizarRectangulo(index2); break;
-						case 4: actualizarPentagono(index2); break;
-						case 5: actualizarTriangulo(index2); break;
+					switch(resultado2.figura){
+						case 1: actualizarCirculo(resultado2.i); break;
+						case 2: actualizarCuadrado(resultado2.i); break;
+						case 3: actualizarRectangulo(resultado2.i); break;
+						case 4: actualizarPentagono(resultado2.i); break;
+						case 5: actualizarTriangulo(resultado2.i); break;
 					}
 					break;
-					case 3:
-						ArrayList<FiguraAux> lista = juntarFiguras();
 
-						lista.sort((f1, f2) -> {
-							int cmp = f1.getColor().compareTo(f2.getColor());
-							if (cmp == 0) {
-								return Double.compare(f1.getArea(), f2.getArea());
-							}
-							return cmp;
-						});
-						for (FiguraAux f : lista) {
-							System.out.println(f.getTipo() + " (" + f.getId() + " ) " + f.getColor() + " | " + f.getArea());
+				case 3:
+					ArrayList<FiguraAux> lista = juntarFiguras();
+
+					lista.sort((f1, f2) -> {
+						int cmp = f1.getColor().compareTo(f2.getColor());
+						if (cmp == 0) {
+							return Double.compare(f1.getArea(), f2.getArea());
 						}
-						break;
+						return cmp;
+					});
+					for (FiguraAux f : lista) {
+						System.out.print(f.getTipo() + " (" + f.getId() + " ) " + f.getColor());
+						System.out.printf(" | "+"%.2f\n", f.getArea());
+					}
+					break;
 
-
+				case 4:
+					listadoTriangulosInvalidos();
+					break;
 
 			}
-		}while(menu!=4);
+		}while(menu!=5);
 
 	}
 
-	static int buscarID(String idBuscada, int figura) {
+	static resultadoBusqueda buscarID(String idBuscada) {
 
-		switch (figura) {
-			case 1:
-
-				for (int i = 0; i < circle.size(); i++) {
-					if (circle.get(i).getID().equals(idBuscada)) {
-						return i;
-                    }
-				}
-				break;
-
-			case 2:
-
-				for (int i = 0; i < square.size(); i++) {
-					if (square.get(i).getID().equals(idBuscada)) {
-						return i;
-					}
-				}
-				break;
-
-			case 3:
-
-				for (int i = 0; i < rectangle.size(); i++) {
-					if (rectangle.get(i).getID().equals(idBuscada)) {
-						return i;
-					}
-				}
-				break;
-
-			case 4:
-
-				for (int i = 0; i < pentagon.size(); i++) {
-					if (pentagon.get(i).getID().equals(idBuscada)) {
-						return i;
-					}
-				}
-				break;
-
-			case 5:
-
-				for (int i = 0; i < triangle.size(); i++) {
-					if (triangle.get(i).getID().equals(idBuscada)) {
-						return i;
-					}
-				}
-				break;
+		for(int i=0; i<circle.size(); i++){
+			if(idBuscada.equals(circle.get(i).getID())){
+				return new resultadoBusqueda(i, 1, true);
+			}
 		}
-		return -1;
+
+		for(int i=0; i<square.size(); i++){
+			if(idBuscada.equals(square.get(i).getID())){
+				return new resultadoBusqueda(i, 2, true);
+			}
+		}
+
+		for(int i=0; i<rectangle.size(); i++){
+			if(idBuscada.equals(rectangle.get(i).getID())){
+				return new resultadoBusqueda(i, 3, true);
+			}
+		}
+
+		for(int i=0; i<pentagon.size(); i++){
+			if(idBuscada.equals(pentagon.get(i).getID())){
+				return new resultadoBusqueda(i, 4, true);
+			}
+		}
+
+		for(int i=0; i<triangle.size(); i++){
+			if(idBuscada.equals(triangle.get(i).getID())){
+				return new resultadoBusqueda(i, 5, true);
+			}
+		}
+
+		return new resultadoBusqueda(-1, -1, false);
 	}
 
 	static void actualizarCirculo(int index2){
@@ -154,6 +140,7 @@ public class App {
 		int opcion;
 
 		do {
+			System.out.println("Figura geometrica: Circulo");
 			System.out.println("Ingrese el atributo que desea modificar");
 			System.out.println("1. Diametro");
 			System.out.println("2. Color");
@@ -184,6 +171,7 @@ public class App {
 		int opcion;
 
 		do {
+			System.out.println("Figura geometrica: Cuadrado");
 			System.out.println("Ingrese el atributo que desea modificar");
 			System.out.println("1. Lados");
 			System.out.println("2. Color");
@@ -214,6 +202,7 @@ public class App {
 		int opcion;
 
 		do {
+			System.out.println("Figura geometrica: Rectangulo");
 			System.out.println("Ingrese el atributo que desea modificar");
 			System.out.println("1. Altura");
 			System.out.println("2. Base");
@@ -258,6 +247,7 @@ public class App {
 		int opcion;
 
 		do {
+			System.out.println("Figura geometrica: Pentagono");
 			System.out.println("Ingrese el atributo que desea modificar");
 			System.out.println("1. Lados");
 			System.out.println("2. Color");
@@ -288,6 +278,7 @@ public class App {
 		int opcion;
 
 		do{
+			System.out.println("Figura geometrica: Triangulo");
 			System.out.println("Ingrese el atributo que desea modificar");
 			System.out.println("1. Lado1");
 			System.out.println("2. Lado2");
@@ -388,6 +379,20 @@ public class App {
 				break;
 		}
 	}
+
+	static void listadoTriangulosInvalidos(){
+
+		int i=0;
+
+		System.out.println("Listado de figuras geometricas que no pueden ser construidas geometricamente");
+		System.out.println(" ");
+		for(Triangulo index: triangle){
+			if(Double.isNaN(index.doCalcularArea())){
+				System.out.println("Triangulo("+(++i)+") "+index.getColor()+" lado1("+index.getLado1()+")"+" lado2("+index.getLado2()+")"+" lado3("+index.getLado3()+")");
+			}
+		}
+	}
+
 	static ArrayList<FiguraAux> juntarFiguras() {
 
 		ArrayList<FiguraAux> lista = new ArrayList<>();
@@ -420,25 +425,6 @@ public class App {
 		return lista;
 	}
 
-	static int menuFigura(){
-		int figura;
-
-		System.out.println("Ingresar la figura que desea mostrar");
-
-		do{
-			System.out.println("1. Circulo");
-			System.out.println("2. Cuadrado");
-			System.out.println("3. Rectangulo");
-			System.out.println("4. Pentagono");
-			System.out.println("5. Triangulo");
-			figura=sc.nextInt();
-
-		}while(figura<0 || figura>5);
-
-		return figura;
-	}
-
-
 	static int menuPrincipal () {
 
 		int opcion;
@@ -447,10 +433,11 @@ public class App {
 			System.out.println("1. Mostrar area y perimetro de una figura");
 			System.out.println("2. Actualizar datos de una figura");
 			System.out.println("3. Consultar por tipo de figura u organizacion");
-			System.out.println("4. Salir");
+			System.out.println("4. Listado de las figuras que no pueden ser construidas geometricamente");
+			System.out.println("5. Salir");
 			opcion = sc.nextInt();
 		}
-		while (opcion<0 || opcion>4);
+		while (opcion<0 || opcion>5);
 
 		return opcion;
 
