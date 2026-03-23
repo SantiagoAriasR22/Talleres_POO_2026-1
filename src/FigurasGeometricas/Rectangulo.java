@@ -1,4 +1,4 @@
-package FigGeom;
+package FigurasGeometricas;
 
 public class Rectangulo {
 

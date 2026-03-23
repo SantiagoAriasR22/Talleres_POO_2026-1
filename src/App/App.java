@@ -1,11 +1,14 @@
-package FigGeomApp;
+package App;
 import java.util.ArrayList;
-import FigGeom.*;
-
-
+import FigurasGeometricas.*;
 import java.io.*;
 import java.util.Scanner;
 
+/*ELABORADO POR:
+ALEX DAVID FLOREZ CERRO 0222510031
+DAVID SANTIAGO ARIAS 0222510022
+ANGEL DANIEL MERCHAN VILLAMIZAR 0222510035
+*/
 
 
 public class App {
@@ -86,8 +89,10 @@ public class App {
 						return cmp;
 					});
 					for (FiguraAux f : lista) {
-						System.out.print(f.getTipo() + " (" + f.getId() + " ) " + f.getColor());
-						System.out.printf(" | "+"%.2f\n", f.getArea());
+						if(!Double.isNaN(f.getArea())) {
+							System.out.print(f.getTipo() + " (" + f.getId() + " ) " + f.getColor());
+							System.out.printf(" | " + "%.2f\n", f.getArea());
+						}
 					}
 					break;
 
@@ -388,7 +393,7 @@ public class App {
 		System.out.println(" ");
 		for(Triangulo index: triangle){
 			if(Double.isNaN(index.doCalcularArea())){
-				System.out.println("Triangulo("+(++i)+") "+index.getColor()+" lado1("+index.getLado1()+")"+" lado2("+index.getLado2()+")"+" lado3("+index.getLado3()+")");
+				System.out.println("Triangulo("+(index.getID())+") "+index.getColor()+" lado1("+index.getLado1()+")"+" lado2("+index.getLado2()+")"+" lado3("+index.getLado3()+")");
 			}
 		}
 	}

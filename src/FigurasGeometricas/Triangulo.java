@@ -1,5 +1,4 @@
-package FigGeom;
-import java.math.*;
+package FigurasGeometricas;
 
 public class Triangulo {
 

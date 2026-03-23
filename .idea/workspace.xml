@@ -6,9 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="3e6c8194-44a8-4936-8a58-bbcd5e1e8e4a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/FigGeomApp/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/FigGeomApp/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/FigurasGeometricas/FigGeomApp/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/FigurasGeometricas/FigGeomApp/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FigGeomApp/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FigGeomApp/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Talleres_POO_2026-1/FigGeom/Circulo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Talleres_POO_2026-1/FigGeom/Cuadrado.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Talleres_POO_2026-1/FigGeom/FiguraAux.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Talleres_POO_2026-1/FigGeom/Pentagono.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Talleres_POO_2026-1/FigGeom/Rectangulo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Talleres_POO_2026-1/FigGeom/Triangulo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Talleres_POO_2026-1/FigGeomApp/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Talleres_POO_2026-1/FigGeomApp/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FigGeom/Circulo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FigurasGeometricas/Circulo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FigGeom/Cuadrado.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FigurasGeometricas/Cuadrado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FigGeom/FiguraAux.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FigurasGeometricas/FiguraAux.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FigGeom/Pentagono.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FigurasGeometricas/Pentagono.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FigGeom/Rectangulo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FigurasGeometricas/Rectangulo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FigGeom/Triangulo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FigurasGeometricas/Triangulo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FigGeomApp/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/App/App.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +27,8 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="43" />
+    <option name="cachedIndexableFilesCount" value="44" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -28,37 +40,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "SantiagoAriasR22"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;SantiagoAriasR22&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/SantiagoAriasR22/Talleres_POO_2026-1.git",
-    "accountId": "53c6c639-aa67-4821-a660-523d8093bab7"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/SantiagoAriasR22/Talleres_POO_2026-1.git&quot;,
+    &quot;accountId&quot;: &quot;53c6c639-aa67-4821-a660-523d8093bab7&quot;
   }
-}]]></component>
+}</component>
   <component name="McpProjectServerCommands">
-    <McpServerCommand sourceId="UserConfigurationSource">
-      <option name="allowedToolsNames" />
-      <option name="enabled" value="true" />
-      <option name="name" value="" />
-      <option name="programPath" value="" />
-      <option name="arguments" value="" />
-      <option name="workingDirectory" value="" />
-      <envs />
-    </McpServerCommand>
-    <McpServerCommand sourceId="UserConfigurationSource">
-      <option name="allowedToolsNames" />
-      <option name="enabled" value="true" />
-      <option name="name" value="" />
-      <option name="programPath" value="" />
-      <option name="arguments" value="" />
-      <option name="workingDirectory" value="" />
-      <envs />
-    </McpServerCommand>
+    <commands />
+    <urls />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -93,7 +89,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28294.334" />
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.32098.37" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.32098.37" />
       </set>
     </attachedChunks>
   </component>
@@ -107,6 +104,8 @@
       <workItem from="1767238254618" duration="140000" />
       <workItem from="1774225830478" duration="1804000" />
       <workItem from="1774227747226" duration="1756000" />
+      <workItem from="1774286906210" duration="1287000" />
+      <workItem from="1774300399446" duration="1320000" />
     </task>
     <servers />
   </component>
