@@ -2,18 +2,18 @@ package Organizador;
 
 public class Rol {
 
-    private long id;
+    private String id;
     private String nombre;
     private int nivel;
 
-    public Rol(long id, String nombre, int nivel){
+    public Rol(String id, String nombre, int nivel){
         this.id=id;
         this.nombre=nombre;
         this.nivel=nivel;
     }
 
     //getters
-    public long getId(){ return id; }
+    public String getId(){ return id; }
     public String getNombre(){ return nombre; }
     public int getNivel(){ return nivel; }
 
