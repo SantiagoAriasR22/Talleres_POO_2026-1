@@ -4,20 +4,21 @@ import java.util.ArrayList;
 
 public class Oficina {
 
-    private long id;
+    private String id;
     private String nombre;
     private ArrayList<Empleado> empleados;
     private ArrayList<Tarea> tareas;
 
-    public Oficina(long id, String nombre){
+    public Oficina(String id, String nombre, String idTareaInicial, String descripcionTareaInicial){
         this.id=id;
         this.nombre=nombre;
         this.empleados=new ArrayList<>();
         this.tareas=new ArrayList<>();
+        this.registrarTarea(idTareaInicial, descripcionTareaInicial);
     }
 
     //getters
-    public long getId(){
+    public String getId(){
         return id;
     }
 
@@ -49,15 +50,14 @@ public class Oficina {
         this.empleados.remove(empleado);
     }
 
-    public void crearTarea(long id, String descripcion){
-        Tarea nuevaTarea = new Tarea(id, descripcion, "en desarrollo");
-        this.tareas.add(nuevaTarea);
+    public void registrarTarea(String id, String descripcion){
+        this.tareas.add(new Tarea(id, descripcion, "en desarrollo"));
     }
 
-    public void finalizarTarea(long idTarea){
+    public void finalizarTarea(String idTarea){
 
         for(Tarea i: tareas){
-            if(i.getId()==idTarea){
+            if(idTarea.equals(i.getId())){
                 i.setEstado("finalizada");
                 break;
             }

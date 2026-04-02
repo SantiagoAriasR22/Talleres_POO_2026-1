@@ -4,100 +4,145 @@ import Organizador.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class App {
-    static Scanner sc = new Scanner(System.in);
-    static ArrayList<Oficina> oficinas = new ArrayList<>();
+    private static Scanner sc = new Scanner(System.in);
+    private static ArrayList<Oficina> oficinas = new ArrayList<>();
+    private static int contadorOficinas=0;
+    private static int contadorTareas=0;
+
     public static void main(String[] args) {
+
+        int opc;
+        do {
+            opc = menuPrincipal();
+
+            switch(opc){
+                case 1: crearOficina(); break;
+                case 2: asignarTarea(); break;
+            }
+        } while (opc != 3);
+    }
+
+    public static int menuPrincipal() {
 
         int opcion;
         do {
-
-            System.out.println("1. Crear Oficina");
-            System.out.println("2. Crear Empleado");
+            System.out.println("1. Registrar Oficina");
+            System.out.println("2. Registrar una tarea");
             System.out.println("3. Salir");
             opcion = sc.nextInt();
-
-        }while(opcion>3 || opcion<1);
-        crearobj(opcion);
+            sc.nextLine();
+        } while (opcion < 1 || opcion > 3);
+        return opcion;
     }
 
+    public static void crearOficina() {
 
+        String nombreOficina, descripcionTarea;
+        String idOficina, idTarea;
 
-    public static void crearobj(int opcion){
+        System.out.println("Diligencie los siguientes datos correctamente para que el registro sea exitoso");
+        System.out.println("Ingrese el nombre de la oficina");
+        nombreOficina = sc.nextLine();
+        System.out.print("El ID de la oficina sera el siguiente: ");
+        idOficina="O"+(++contadorOficinas);
+        System.out.println(idOficina);
+        System.out.println("Para registrar una oficina es necesario asignarle una tarea");
+        idTarea="T"+(++contadorTareas);
+        System.out.println("La ID que se le asignara a la tarea es: ");
+        System.out.println(idTarea);
+        descripcionTarea=menuTareas();
 
-        switch (opcion){
+        Oficina office = new Oficina(idOficina, nombreOficina, idTarea, descripcionTarea);
+        oficinas.add(office);
 
-            case 1:
-                String name;
-                long id;
-                int vld;
-                System.out.println("Se va a crear ua oficina");
-                System.out.println("Ingrese el nombre de la oficina");
-                name=sc.next();
-                System.out.println("Inserte el ID de la oficina");
-                id=sc.nextLong();
-                Oficina office = new Oficina(id, name);
-                oficinas.add(office);
-
-                System.out.println("Al haber creado una oficina, debes general al menos una tarea para que pueda ser usada");
-asignarTarea(oficinas, id);
-
-        }
     }
 
-    public static void asignarTarea(ArrayList<Oficina> oficinas, long id){
-        int opc, cont;
-        long idt;
-        String descripcion = "No inicializada";
-        for (Oficina office : oficinas){
-            if(office.getId()==id){
-                if(office.getTareas().size()==0){
-                    cont=0;
-                }
+    public static int buscarIdOficina(String id){
 
-                else{
-                     cont=1;
-                    System.out.println("Esta oficina ya tiene tareas asignadas, desea agregar otra?"+
-                            "\n1.Si"+
-                            "\n2.No");
-                     opc=sc.nextInt();
-                    if(opc==2){
-                        return;
-                    }
-
-                }
-                do {
-                    System.out.println("Ingrese el ID de la tarea");
-                    idt=sc.nextLong();
-                    System.out.println("Escoja una de las siguientes tareas disponibles"+
-                            "\n1.Implementar nuevas medidas de ciberseguridad"+
-                            "\n2.Preparar informe financiero trimestral"+
-                            "\n3.Lanzar campaña publicitaria en redes sociales"+
-                            "\n4.Capacitación de empleados en nuevas herramientas"+
-                            "\n5.Salir");
-                    opc=sc.nextInt();
-                    switch(opc){
-                        case 1: descripcion="Implementar nuevas medidas de ciberseguridad";cont++; break;
-                        case 2:  descripcion="Preparar informe financiero trimestral";cont++; break;
-                        case 3: descripcion="Lanzar campaña publicitaria en redes sociales";cont++; break;
-                        case 4: descripcion="Capacitación de empleados en nuevas herramientas";cont++; break;
-                        case 5: if(cont==0)
-                        {
-                            System.out.println("No se puede crear una oficina sin tareas");
-                        }
-                        else{ System.out.println("Se ha creado la tarea");}
-                            break;
-                    }
-                    if(opc<5 && opc>0){
-                        office.crearTarea(idt, descripcion);
-                    }
-
-
-                }while(opc != 5 || cont == 0);
+        for(int i=0; i<oficinas.size(); i++){
+            if(oficinas.get(i).getId().equals(id)){
+                return i;
             }
+        }
+        return -1;
+    }
 
+    public static void asignarTarea() {
+
+        String idOficina;
+
+        System.out.println("Ingrese la ID de la oficina a la cual le quiere asignar una tarea");
+        idOficina=sc.nextLine();
+
+        while(!validarString(idOficina)){
+            System.out.println("Error: La ID no puede estar vacia");
+            System.out.println("Ingrese la ID nuevamente");
+            idOficina=sc.nextLine();
         }
 
+        int posicionOficina=buscarIdOficina(idOficina);
 
+        if(posicionOficina==-1){
+            System.out.println("El ID ingresado no se encuentra en la base de datos, por favor vuelva a intentarlo nuevamente");
+        }
+        else{
+
+            System.out.println("Oficina: "+ oficinas.get(posicionOficina).getNombre());
+            System.out.println("La ID que se le asignara a la tarea es: ");
+            String idTarea="T"+(++contadorTareas);
+            System.out.println(idTarea);
+            String descripcionTarea=menuTareas();
+            oficinas.get(posicionOficina).registrarTarea(idTarea, descripcionTarea);
+        }
+
+    }
+
+    public static boolean validarString(String texto){
+
+        if(texto!=null && !texto.trim().isEmpty()){ return true; }
+        else return false;
+    }
+
+    public static String menuTareas(){
+
+        int opcion;
+
+        System.out.println("Menu de tareas");
+        System.out.println("Escoja una de las siguientes opciones para asignarle una tarea a la oficina");
+
+        do{
+            System.out.println("1. Implementar nuevas medidas de ciberseguridad");
+            System.out.println("2. Preparar informe financiero trimestral");
+            System.out.println("3. Lanzar campaña publicitaria en redes sociales");
+            System.out.println("4. Capacitación de empleados en nuevas herramientas");
+            System.out.println("5. Asigne otra tarea");
+            opcion=sc.nextInt();
+            sc.nextLine();
+        }while(opcion<0 || opcion>6);
+
+        switch(opcion){
+
+            case 1: return "Implementar nuevas medidas de ciberseguridad";
+            case 2: return "Preparar informe financiero trimestral";
+            case 3: return "Lanzar campaña publicitaria en redes sociales";
+            case 4: return "Capacitación de empleados en nuevas herramientas";
+            case 5:
+
+                String descripcion;
+                System.out.println("Ingrese la descripcion de la tarea: ");
+                descripcion=sc.nextLine();
+
+                while(!validarString(descripcion)){
+                    System.out.println("Error: La descripcion no puede estar vacia");
+                    System.out.println("Ingrese la descripcion nuevamente");
+                    descripcion=sc.nextLine();
+                }
+
+                return descripcion;
+
+            default: return " ";
+        }
     }
 }

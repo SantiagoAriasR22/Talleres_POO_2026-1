@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Empleado {
 
-    private long id;
+    private String id;
     private String nombre;
     private Rol rol;
     private ArrayList<Oficina> oficinas;
 
-    public Empleado(long id, String nombre, Rol rol){
+    public Empleado(String id, String nombre, Rol rol){
         this.id=id;
         this.nombre=nombre;
         this.rol=rol;
@@ -22,7 +22,7 @@ public class Empleado {
     }
 
     //getters
-    public long getId(){
+    public String getId(){
         return id;
     }
 
