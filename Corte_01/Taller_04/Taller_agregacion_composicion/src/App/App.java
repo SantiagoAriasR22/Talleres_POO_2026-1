@@ -10,6 +10,8 @@ public class App {
     private static ArrayList<Oficina> oficinas = new ArrayList<>();
     private static int contadorOficinas=0;
     private static int contadorTareas=0;
+    private static int contadorEmpleados=0;
+    private static int contadorRoles=0;
 
     public static void main(String[] args) {
 
@@ -20,8 +22,9 @@ public class App {
             switch(opc){
                 case 1: crearOficina(); break;
                 case 2: asignarTarea(); break;
+                case 3: crearEmpleado(); break;
             }
-        } while (opc != 3);
+        } while (opc != 4);
     }
 
     public static int menuPrincipal() {
@@ -30,7 +33,8 @@ public class App {
         do {
             System.out.println("1. Registrar Oficina");
             System.out.println("2. Registrar una tarea");
-            System.out.println("3. Salir");
+            System.out.println("3. Registrar un empleado");
+            System.out.println("4. Salir");
             opcion = sc.nextInt();
             sc.nextLine();
         } while (opcion < 1 || opcion > 3);
@@ -144,5 +148,54 @@ public class App {
 
             default: return " ";
         }
+    }
+    public static void crearEmpleado() {
+        String nombreEmpleado;
+        String idEmpleado;
+        String rol;
+        System.out.println("Ingrese el nombre del empleado");
+        nombreEmpleado=sc.nextLine();
+        System.out.println("El ID del empleado sera el siguiente: ");
+        idEmpleado="E"+(++contadorEmpleados);
+        Empleado empleado=new Empleado(idEmpleado, nombreEmpleado, menuRol());
+
+    }
+    public static Rol menuRol(){
+        int opcion;
+        System.out.println("Menu de roles");
+        System.out.println("Escoja una de las siguientes opciones para asignarle un rol a un empleado");
+        do{
+            System.out.println("1. Gerente de Proyecto");
+            System.out.println("2. Desarrollador de Software");
+            System.out.println("3. Analista de Datos");
+            System.out.println("4. Asigne otro rol");
+            opcion=sc.nextInt();
+//            if(opcion==4){
+//                crearRol();
+//            }
+        }while(opcion<0 || opcion>4);
+        switch (opcion){
+            case 1: return new Rol("R"+(++contadorRoles),"Gerente de Proyecto", 1 );
+            case 2: return new Rol("R"+(++contadorRoles),"Desarrollador de Software", 2 );
+            case 3: return new Rol("R"+(++contadorRoles),"Analista de Datos", 3 );
+            case 4: return rolPerso();
+            default: return null;
+        }
+
+    }
+
+    public static Rol rolPerso(){
+        String rol;
+        int lvl;
+        String idRol;
+        System.out.println("Ingrese el rol del empleado");
+        rol=sc.nextLine();
+        System.out.println("Ingrese el nivel del rol");
+        lvl=sc.nextInt();
+        System.out.println("El ID del rol sera el siguiente: ");
+        idRol="R"+(++contadorRoles);
+        System.out.println(idRol);
+        return new Rol(idRol, rol, lvl);
+
     }
 }
