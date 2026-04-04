@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class App {
     private static Scanner sc = new Scanner(System.in);
     private static ArrayList<Oficina> oficinas = new ArrayList<>();
+    private static ArrayList<Empleado> empleados = new ArrayList<>();
+    //private static ArrayList<Tarea> task = new ArrayList<>();
     private static int contadorOficinas=0;
     private static int contadorTareas=0;
     private static int contadorEmpleados=0;
@@ -23,6 +25,7 @@ public class App {
                 case 1: crearOficina(); break;
                 case 2: asignarTarea(); break;
                 case 3: crearEmpleado(); break;
+                case 4: mostrarDatos(); break;
             }
         } while (opc != 4);
     }
@@ -31,13 +34,15 @@ public class App {
 
         int opcion;
         do {
+            System.out.println("MENU PRINCIPAL");
             System.out.println("1. Registrar Oficina");
             System.out.println("2. Registrar una tarea");
             System.out.println("3. Registrar un empleado");
-            System.out.println("4. Salir");
+            System.out.println("4. Mostrar datos");
+            System.out.println("5. Salir");
             opcion = sc.nextInt();
             sc.nextLine();
-        } while (opcion < 1 || opcion > 3);
+        } while (opcion < 1 || opcion > 5);
         return opcion;
     }
 
@@ -47,8 +52,7 @@ public class App {
         String idOficina, idTarea;
 
         System.out.println("Diligencie los siguientes datos correctamente para que el registro sea exitoso");
-        System.out.println("Ingrese el nombre de la oficina");
-        nombreOficina = sc.nextLine();
+        nombreOficina=menuOficinas();
         System.out.print("El ID de la oficina sera el siguiente: ");
         idOficina="O"+(++contadorOficinas);
         System.out.println(idOficina);
@@ -104,9 +108,33 @@ public class App {
     }
 
     public static boolean validarString(String texto){
-
         if(texto!=null && !texto.trim().isEmpty()){ return true; }
         else return false;
+    }
+
+    public static String menuOficinas(){
+
+        int opcion;
+
+        do{
+            System.out.println("1. Departamento de tecnologia");
+            System.out.println("2. Recursos humanos");
+            System.out.println("3. Finanzas y contabilidad");
+            System.out.println("4. Marketing y publicidad");
+            System.out.println("5. Atencion al cliente");
+            opcion=sc.nextInt();
+            sc.nextLine();
+        }while(opcion<1 || opcion>5);
+
+        switch(opcion){
+            case 1: return "Departamento de tecnologia";
+            case 2: return "Recursos humanos";
+            case 3: return "Finanzas y contabilidad";
+            case 4: return "Marketing y publicidad";
+            case 5: return "Atencion al cliente";
+
+            default: return "";
+        }
     }
 
     public static String menuTareas(){
@@ -149,30 +177,77 @@ public class App {
             default: return " ";
         }
     }
+
     public static void crearEmpleado() {
+
         String nombreEmpleado;
         String idEmpleado;
         String rol;
+
         System.out.println("Ingrese el nombre del empleado");
         nombreEmpleado=sc.nextLine();
+
+        while(!validarString(nombreEmpleado)){
+            System.out.println("Error: El nombre no puede estar vacio");
+            nombreEmpleado=sc.nextLine();
+        }
+
         System.out.println("El ID del empleado sera el siguiente: ");
         idEmpleado="E"+(++contadorEmpleados);
-        Empleado empleado=new Empleado(idEmpleado, nombreEmpleado, menuRol());
+        System.out.println(idEmpleado);
+        Empleado employee=new Empleado(idEmpleado, nombreEmpleado, menuRol()); //es con dos e, ya le diste a rename? si
+
+
+        System.out.println("Para terminar de registrar al empleado se necesita asignarlo a una oficina");
+        System.out.println("Las oficinas disponibles son las siguientes");
+
+        Oficina oficinaRegistrada=agregarOficinasaEmpleado(employee);
+        employee.agregarOficina(oficinaRegistrada);
+
+        empleados.add(employee);
+    }
+
+    public static Oficina agregarOficinasaEmpleado(Empleado employee){
+
+        String idOficina;
+
+        for (Oficina i: oficinas){
+            System.out.println("Nombre: "+ i.getNombre());
+            System.out.println("ID: "+ i.getId());
+        }
+
+        System.out.print("Ingrese la ID de la oficina en la cual quiere registrar al empleado: ");
+        idOficina=sc.nextLine();
+
+        while(!validarString(idOficina)){
+            System.out.println("Error: La ID no puede estar vacia");
+            idOficina=sc.nextLine();
+        }
+
+        int posicionOficina=buscarIdOficina(idOficina);
+        oficinas.get(posicionOficina).agregarEmpleado(employee);
+
+        return oficinas.get(posicionOficina);
 
     }
+
     public static Rol menuRol(){
         int opcion;
+
         System.out.println("Menu de roles");
         System.out.println("Escoja una de las siguientes opciones para asignarle un rol a un empleado");
+
         do{
             System.out.println("1. Gerente de Proyecto");
             System.out.println("2. Desarrollador de Software");
             System.out.println("3. Analista de Datos");
             System.out.println("4. Asigne otro rol");
             opcion=sc.nextInt();
+            sc.nextLine();
 //            if(opcion==4){
 //                crearRol();
 //            }
+
         }while(opcion<0 || opcion>4);
         switch (opcion){
             case 1: return new Rol("R"+(++contadorRoles),"Gerente de Proyecto", 1 );
@@ -197,5 +272,20 @@ public class App {
         System.out.println(idRol);
         return new Rol(idRol, rol, lvl);
 
+    }
+    public static void mostrarDatos(){
+        for(Oficina office: oficinas) {
+            System.out.println("Oficina: " + office.getNombre());
+            System.out.println("Empleados:");
+            for(Empleado employee : office.getEmpleados()) {
+                System.out.println("Nombre: "+employee.getNombre()+" Rol: "+ employee.getRol().getNombre()+" Nivel"+employee.getRol().getNivel());
+            }
+
+            for(Tarea task: office.getTareas()){
+                System.out.println("Tarea: "+task.getDescripcion());
+                System.out.println("Estado: "+task.getEstado());
+
+            }
+        }
     }
 }
