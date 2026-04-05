@@ -9,12 +9,11 @@ public class Oficina {
     private ArrayList<Empleado> empleados;
     private ArrayList<Tarea> tareas;
 
-    public Oficina(String id, String nombre, String idTareaInicial, String descripcionTareaInicial){
+    public Oficina(String id, String nombre){
         this.id=id;
         this.nombre=nombre;
         this.empleados=new ArrayList<>();
         this.tareas=new ArrayList<>();
-        this.registrarTarea(idTareaInicial, descripcionTareaInicial);
     }
 
     //getters
@@ -50,8 +49,16 @@ public class Oficina {
         this.empleados.remove(empleado);
     }
 
-    public void registrarTarea(String id, String descripcion){
-        this.tareas.add(new Tarea(id, descripcion, "en desarrollo"));
+    public Tarea registrarTareaPropia(String id, String idOficinaCreadora, String descripcion){
+        Tarea tarea=new Tarea(id, idOficinaCreadora, descripcion, "en desarrollo");
+        this.tareas.add(tarea);
+        return tarea;
+    }
+
+    public void vincularTareaDeOtraOficina(Tarea tarea){
+        if(!tareas.contains(tarea)){
+            tareas.add(tarea);
+        }
     }
 
     public void finalizarTarea(String idTarea){

@@ -3,11 +3,13 @@ package Organizador;
 public class Tarea {
 
     private String id;
+    private String idOficinaCreadora;
     private String descripcion;
     private String estado;
 
-    public Tarea(String id, String descripcion, String estado){
+    public Tarea(String id, String idOficinaCreadora, String descripcion, String estado){
         this.id=id;
+        this.idOficinaCreadora=idOficinaCreadora;
         this.descripcion=descripcion;
         this.estado=estado;
     }
