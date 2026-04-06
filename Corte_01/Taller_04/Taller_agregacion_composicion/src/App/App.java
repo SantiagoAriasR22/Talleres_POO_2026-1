@@ -62,6 +62,7 @@ public class App {
 
             switch(opcion){
                 case 1: crearOficina(); break;
+
                 case 3: menuGestionTareas(); break;
                 case 4: return;
             }
@@ -77,7 +78,7 @@ public class App {
         do{
             System.out.println("1. Registrar empleado");
             System.out.println("2. Eliminar empleado");
-            System.out.println("3. Añadir oficina a aun empleado");
+            System.out.println("3. Añadir oficina a un empleado");
             System.out.println("4. Eliminar oficina a un empleado");
             System.out.println("5. Volver al menu principal");
             opcion=sc.nextInt();
@@ -85,6 +86,7 @@ public class App {
 
             switch (opcion){
                 case 1: crearEmpleado(); break;
+                case 2: eliminarEmpleado();break;
                 case 3:
                     System.out.print("Ingrese la ID del empleado al cual quiere añadirle una oficina");
                     idEmpleado=sc.nextLine();
@@ -100,6 +102,7 @@ public class App {
                     else System.out.println("Error: La ID ingresada no aparece como registrada en la organizacion, por favor, vuelva al menu principal e intentelo nuevamente");
 
                     break;
+                    case 4: eliminarofempl(); break;
 
                 case 5: return;
             }
@@ -355,5 +358,56 @@ public class App {
 
             }
         }
+    }
+    public static void eliminarEmpleado(){
+        String idEmpleado;
+        System.out.println("Ingrese la ID del empleado que desea eliminar");
+        idEmpleado=sc.nextLine();
+        Empleado employee =buscarEmpleado(idEmpleado);
+        if(employee!=null){
+            for(Oficina i: oficinas){
+                if(i.getEmpleados().contains(employee)){
+                    i.eliminarEmpleado(employee);
+                }
+            }
+            empleados.remove(employee);
+            System.out.println("El empleado se ha eliminado correctamente");
+        }
+        else {
+            System.out.println("Error: La ID ingresada no aparece como registrada en la organizacion");
+        }
+        }
+
+    public static void eliminarofempl(){
+
+        String idEmpleado;
+        String idOficina;
+        System.out.println("Ingrese la ID de la oficina a la cual quiere eliminarle un empleado");
+        idOficina=sc.nextLine();
+
+      int posoffice = buscarIdOficina(idOficina);
+if(posoffice!=-1){
+    System.out.println("Ingrese la ID del empleado que desea eliminar");
+    idEmpleado=sc.nextLine();
+    Empleado employee = buscarEmpleado(idEmpleado);
+    if(employee!=null){
+
+        if(oficinas.get(posoffice).getEmpleados().contains(employee)){
+            oficinas.get(posoffice).eliminarEmpleado(employee);
+            empleados.remove(employee);
+            System.out.println("El empleado se ha eliminado correctamente");
+        }
+    }
+    else {
+        System.out.println("Error: La ID del empleado ingresada no aparece como registrada en la organizacion");
+    }
+}
+else{
+    System.out.println("Error: La ID de la oficina ingresada no aparece como registrada en la organizacion");
+}
+
+
+
+
     }
 }
