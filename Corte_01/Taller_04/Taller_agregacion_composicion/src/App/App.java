@@ -102,7 +102,7 @@ public class App {
                     else System.out.println("Error: La ID ingresada no aparece como registrada en la organizacion, por favor, vuelva al menu principal e intentelo nuevamente");
 
                     break;
-                    case 4: eliminarofempl(); break;
+                    case 4: eliminarEmpleadoDeOficina(); break;
 
                 case 5: return;
             }
@@ -336,9 +336,9 @@ public class App {
 
         }while(opcion<1 || opcion>3);
         switch (opcion){
-            case 1: return new Rol("R"+(++contadorRoles),"Gerente de Proyecto", 1 );
-            case 2: return new Rol("R"+(++contadorRoles),"Desarrollador de Software", 2 );
-            case 3: return new Rol("R"+(++contadorRoles),"Analista de Datos", 3 );
+            case 1: return new Rol("R1","Gerente de Proyecto", 1 );
+            case 2: return new Rol("R2","Desarrollador de Software", 2 );
+            case 3: return new Rol("R3","Analista de Datos", 3 );
             default: return null;
         }
 
@@ -378,7 +378,7 @@ public class App {
         }
         }
 
-    public static void eliminarofempl(){
+    public static void eliminarEmpleadoDeOficina(){
 
         String idEmpleado;
         String idOficina;
