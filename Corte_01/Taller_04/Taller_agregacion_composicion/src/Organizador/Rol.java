@@ -16,8 +16,4 @@ public class Rol {
     public String getId(){ return id; }
     public String getNombre(){ return nombre; }
     public int getNivel(){ return nivel; }
-
-    //setters
-    public void setNivel(int nivel){ this.nivel=nivel; }
-    public void setNombre(String nombre){ this.nombre=nombre; }
 }

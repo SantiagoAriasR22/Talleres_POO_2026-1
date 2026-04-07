@@ -1,10 +1,15 @@
 package App;
 import Organizador.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/*ELABORADO POR
+* -ALEX DAVID FLOREZ CERRO 0222520031
+* -DAVID SANTIAGO ARIAS ROJAS 0222510022
+* -ANGEL DANIEL MERCHAN VILLAMIZAR 0222510035 */
+//NOTA: LA ID DE LA OFICINA ES O DE OFICINA Y UN NUMERO INT
 public class App {
     private static Scanner sc = new Scanner(System.in);
     private static ArrayList<Oficina> oficinas = new ArrayList<>();
@@ -13,7 +18,7 @@ public class App {
     private static int contadorOficinas = 0;
     private static int contadorTareas = 0;
     private static int contadorEmpleados = 0;
-    private static int contadorRoles = 0;
+
 
     public static void main(String[] args) {
 
@@ -62,7 +67,7 @@ public class App {
 
             switch(opcion){
                 case 1: crearOficina(); break;
-
+                case 2: eliminarOficina(); break;
                 case 3: menuGestionTareas(); break;
                 case 4: return;
             }
@@ -117,16 +122,63 @@ public class App {
         do{
             System.out.println("1. Crear una nueva tarea");
             System.out.println("2. Asignar una tarea ya creada");
-            System.out.println("3. Volver a gestion de oficinas");
+            System.out.println("3. Actualizar estado de la tarea");
+            System.out.println("4. Volver a gestion de oficinas");
             opcion=sc.nextInt();
             sc.nextLine();
 
             switch (opcion){
                 case 1: asignarTarea(); break;
-                case 3: return;
+                case 2: asignarTareaCreada(); break;
+                case 3: actualizarEstado(); break;
+                case 4: return;
             }
 
-        }while(opcion<1 || opcion>3);
+        }while(opcion<1 || opcion>4);
+
+    }
+
+    public static void asignarTareaCreada(){
+
+        String idOficina;
+        String idTarea;
+        Tarea homework;
+        Oficina office;
+
+        System.out.print("Ingrese la ID de la oficina a la cual quiere asignar la tarea ya creada: ");
+        idOficina=sc.nextLine();
+
+        while(!validarString(idOficina)){
+            System.out.println("Error: La ID de la oficina no puede estar vacia");
+            System.out.print("Ingrese la ID nuevamente: ");
+            idOficina=sc.nextLine();
+        }
+
+        office=buscarOficina(idOficina);
+
+        if(office==null){
+            System.out.println("El ID ingresado no se encuentra en la base de datos, por favor vuelva a intentarlo nuevamente");
+            return;
+        }
+
+        System.out.print("Ingrese la ID de la tarea que quiere asignar: ");
+        idTarea=sc.nextLine();
+
+        while(!validarString(idTarea)){
+            System.out.println("Error: La ID de la tarea no puede estar vacia");
+            System.out.print("Ingrese la ID nuevamente: ");
+            idTarea=sc.nextLine();
+        }
+
+        homework=buscarTarea(idTarea);
+
+        if(homework==null){
+            System.out.println("El ID ingresado no se encuentra en la base de datos, por favor vuelva a intentarlo nuevamente");
+            return;
+        }
+
+        office.vincularTareaDeOtraOficina(homework);
+        homework.agregarColaborador(office);
 
     }
 
@@ -147,9 +199,71 @@ public class App {
         descripcionTarea= tiposDeTareas();
 
         Oficina office = new Oficina(idOficina, nombreOficina);
-        Tarea homework=office.registrarTareaPropia(idOficina, idTarea, descripcionTarea);
+        Tarea homework=office.registrarTareaPropia(idTarea, idOficina, descripcionTarea);
         tareas.add(homework);
         oficinas.add(office);
+
+        System.out.println("La oficina se creo correctamente");
+
+    }
+
+    public static void eliminarOficina(){
+
+        String idOficina;
+        Oficina office;
+
+        System.out.print("Ingrese el ID de la oficina que quiere eliminar");
+        idOficina=sc.nextLine();
+
+        while(!validarString(idOficina)){
+            System.out.println("Error: La ID de la oficina no puede estar vacia");
+            System.out.print("Ingrese la ID nuevamente: ");
+            idOficina=sc.nextLine();
+        }
+
+        office=buscarOficina(idOficina);
+
+        if(office==null){
+            System.out.println("El ID ingresado no se encuentra en la base de datos, por favor vuelva a intentarlo nuevamente");
+            return;
+        }
+
+        ArrayList<Tarea> tareasDeLaOficina=new ArrayList<>(office.getTareas());
+
+        for(Tarea tareaActual: tareasDeLaOficina){
+
+            if(tareaActual.getIdOficinaCreadora().equals(office.getId())){
+
+                tareas.remove(tareaActual);
+
+                for(Oficina colaborador : tareaActual.getOficinasColaboradoras()){
+                    colaborador.eliminarTarea(tareaActual);
+                }
+            }
+            else{
+
+                tareaActual.getOficinasColaboradoras().remove(office);
+
+            }
+        }
+
+        ArrayList<Empleado> empleadosDeLaOficina= new ArrayList<>(office.getEmpleados());
+
+        for(Empleado empleadoActual : empleadosDeLaOficina){
+            empleadoActual.eliminarOficina(office);
+
+            if(oficinas.size()>1){
+                System.out.println("El empleado "+empleadoActual.getNombre()+" se ha quedado sin oficina, a continuacion sera re asignado a otra: ");
+                agregarOficinasaEmpleado(empleadoActual);
+            }
+            else{
+                System.out.println("No hay mas oficinas disponibles, el empleado "+empleadoActual.getNombre()+" sera despedido");
+                empleados.remove(empleadoActual);
+            }
+        }
+
+        oficinas.remove(office);
+        System.out.println("La oficina se elimino correctamente");
 
     }
 
@@ -163,10 +277,32 @@ public class App {
         return -1;
     }
 
+    public static Oficina buscarOficina (String idOficina){
+
+        for(Oficina i: oficinas){
+            if(i.getId().equals(idOficina)){
+                return i;
+            }
+        }
+
+        return null;
+    }
+
     public static Empleado buscarEmpleado(String idEmpleado){
 
         for(Empleado i: empleados){
             if(i.getId().equals(idEmpleado)){
+                return i;
+            }
+        }
+
+        return null;
+    }
+
+    public static Tarea buscarTarea(String idTarea){
+
+        for(Tarea i: tareas){
+            if(i.getId().equals(idTarea)){
                 return i;
             }
         }
@@ -347,15 +483,21 @@ public class App {
     public static void mostrarDatos(){
         for(Oficina office: oficinas) {
             System.out.println("Oficina: " + office.getNombre());
-            System.out.println("Empleados:");
-            for(Empleado employee : office.getEmpleados()) {
-                System.out.println("Nombre: "+employee.getNombre()+" Rol: "+ employee.getRol().getNombre()+" Nivel"+employee.getRol().getNivel());
+            if(office.getEmpleados().isEmpty()){
+                System.out.println("La oficina no cuenta con empleados en nomina");
             }
 
-            for(Tarea task: office.getTareas()){
-                System.out.println("Tarea: "+task.getDescripcion());
-                System.out.println("Estado: "+task.getEstado());
+            else {
+                System.out.println("Empleados:");
+                for (Empleado employee : office.getEmpleados()) {
+                    System.out.println("Nombre: " + employee.getNombre() + "| Rol: " + employee.getRol().getNombre() + "| Nivel " + employee.getRol().getNivel());
+                }
 
+                for (Tarea task : office.getTareas()) {
+                    System.out.println("Tarea: " + task.getDescripcion());
+                    System.out.println("Estado: " + task.getEstado());
+
+                }
             }
         }
     }
@@ -364,6 +506,7 @@ public class App {
         System.out.println("Ingrese la ID del empleado que desea eliminar");
         idEmpleado=sc.nextLine();
         Empleado employee =buscarEmpleado(idEmpleado);
+
         if(employee!=null){
             for(Oficina i: oficinas){
                 if(i.getEmpleados().contains(employee)){
@@ -376,7 +519,7 @@ public class App {
         else {
             System.out.println("Error: La ID ingresada no aparece como registrada en la organizacion");
         }
-        }
+    }
 
     public static void eliminarEmpleadoDeOficina(){
 
@@ -384,30 +527,64 @@ public class App {
         String idOficina;
         System.out.println("Ingrese la ID de la oficina a la cual quiere eliminarle un empleado");
         idOficina=sc.nextLine();
+        int posoffice = buscarIdOficina(idOficina);
 
-      int posoffice = buscarIdOficina(idOficina);
-if(posoffice!=-1){
-    System.out.println("Ingrese la ID del empleado que desea eliminar");
-    idEmpleado=sc.nextLine();
-    Empleado employee = buscarEmpleado(idEmpleado);
-    if(employee!=null){
+        if(posoffice!=-1){
+            System.out.println("Ingrese la ID del empleado que desea eliminar");
+            idEmpleado=sc.nextLine();
+            Empleado employee = buscarEmpleado(idEmpleado);
 
-        if(oficinas.get(posoffice).getEmpleados().contains(employee)){
-            oficinas.get(posoffice).eliminarEmpleado(employee);
-            empleados.remove(employee);
-            System.out.println("El empleado se ha eliminado correctamente");
+            if(employee!=null){
+
+                if(oficinas.get(posoffice).getEmpleados().contains(employee))
+                {
+                    Oficina office = oficinas.get(posoffice);
+                    office.eliminarEmpleado(employee);
+                    employee.eliminarOficina(office);
+                    System.out.println("El empleado se ha eliminado correctamente");
+                }
+            }
+            else {
+                System.out.println("Error: La ID del empleado ingresada no aparece como registrada en la organizacion");
+            }
         }
-    }
-    else {
-        System.out.println("Error: La ID del empleado ingresada no aparece como registrada en la organizacion");
-    }
-}
-else{
-    System.out.println("Error: La ID de la oficina ingresada no aparece como registrada en la organizacion");
-}
-
-
-
+        else{
+            System.out.println("Error: La ID de la oficina ingresada no aparece como registrada en la organizacion");
+        }
 
     }
+
+    public static void actualizarEstado(){
+        String idOficina="";
+        String idTarea="";
+        Oficina office;
+
+        while(buscarOficina(idOficina)==null){
+            System.out.println("Ingresar el ID de la oficina: ");
+            idOficina=sc.nextLine();
+            if(!validarString(idOficina)){
+                System.out.println("El ID de la oficina no puede estar vacio ");
+                return;
+            }
+        }
+        office=buscarOficina(idOficina);
+        while(buscarTarea(idTarea)==null) {
+            System.out.println("Ingresar ID de la tarea que quiere marcar como finalizada: ");
+            idTarea = sc.nextLine();
+                if (!validarString(idTarea)) {
+                System.out.println("El id de la tarea no puede estar vacio");
+                return;
+                }
+        }
+
+        for(Tarea i : office.getTareas()){
+            if(i.getId().equals(idTarea)){
+                office.finalizarTarea(idTarea);
+                System.out.println("La tarea ha sido finalizada con exito");
+                return;
+            }
+        }
+        System.out.println("La tarea que quiere finalizar no existe en la oficina "+office.getNombre());
+    }
+
 }

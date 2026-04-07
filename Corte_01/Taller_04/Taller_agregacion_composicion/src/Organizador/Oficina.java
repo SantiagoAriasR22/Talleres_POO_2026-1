@@ -33,10 +33,6 @@ public class Oficina {
         return tareas;
     }
 
-    //setters
-    public void setNombre(String nombre){
-        this.nombre=nombre;
-    }
 
     //methods
     public void agregarEmpleado(Empleado empleado){
@@ -50,7 +46,7 @@ public class Oficina {
     }
 
     public Tarea registrarTareaPropia(String id, String idOficinaCreadora, String descripcion){
-        Tarea tarea=new Tarea(id, idOficinaCreadora, descripcion, "en desarrollo");
+        Tarea tarea=new Tarea(id, idOficinaCreadora, descripcion, "En desarrollo");
         this.tareas.add(tarea);
         return tarea;
     }
@@ -58,17 +54,21 @@ public class Oficina {
     public void vincularTareaDeOtraOficina(Tarea tarea){
         if(!tareas.contains(tarea)){
             tareas.add(tarea);
+            System.out.println("Ya se agrego la tarea con exito a la oficina "+id);
         }
+        else{ System.out.println("La tarea que se quiere registrar ya esta asignada a esta oficina"); }
     }
 
     public void finalizarTarea(String idTarea){
 
         for(Tarea i: tareas){
             if(idTarea.equals(i.getId())){
-                i.setEstado("finalizada");
+                i.setEstado("Finalizada");
                 break;
             }
         }
     }
+
+    public void eliminarTarea(Tarea tarea){ tareas.remove(tarea);}
 
 }

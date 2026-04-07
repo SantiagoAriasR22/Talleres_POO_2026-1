@@ -16,11 +16,6 @@ public class Empleado {
         this.oficinas=new ArrayList<>();
     }
 
-    //setters
-    public void setRol(Rol rol) {
-        this.rol = rol;
-    }
-
     //getters
     public String getId(){
         return id;
