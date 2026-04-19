@@ -9,7 +9,7 @@ public class HistoriaClinica {
     private ArrayList<Dueño> dueños;
     private Animal animal;
 
-    public HistoriaClinica(String id, Animal animal){
+    HistoriaClinica(String id, Animal animal){
         this.id=id;
         this.animal=animal;
         this.tratamientos=new ArrayList<>();
@@ -18,9 +18,10 @@ public class HistoriaClinica {
 
     //getters
     public String getId(){ return id; }
-    public ArrayList getTratamientos(){ return tratamientos; }
-    public ArrayList getDueños(){ return dueños; }
+    public ArrayList<Tratamiento> getTratamientos(){ return tratamientos; }
+    public ArrayList<Dueño> getDueños(){ return dueños; }
     public Animal getAnimal(){ return animal; }
 
-
+    //methods
+    public void doAgregarDueño(Dueño nuevoDueño){ dueños.add(nuevoDueño); }
 }
