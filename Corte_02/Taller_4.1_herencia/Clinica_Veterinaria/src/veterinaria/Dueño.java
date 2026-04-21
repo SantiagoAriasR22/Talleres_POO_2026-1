@@ -26,4 +26,8 @@ public class Dueño extends Persona{
     //setters
     public void setCorreoElectronico(String nuevoCorreoElectronico){ this.correoElectronico=nuevoCorreoElectronico; }
     public void setMetodoPago(String nuevoMetodoPago){ this.metodoPago=nuevoMetodoPago; }
+
+    //methods
+    public void doAgregarMascota(Animal nuevaMascota){ mascotas.add(nuevaMascota); }
+    public void doEliminarMascota(Animal mascotaEliminada){ mascotas.remove(mascotaEliminada); }
 }

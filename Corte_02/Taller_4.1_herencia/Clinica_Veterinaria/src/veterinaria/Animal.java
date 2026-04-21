@@ -14,6 +14,7 @@ public class Animal {
         this.id=id;
         this.nombre=nombre;
         this.raza=raza;
+        this.dueño=null;
         this.tamaño=tamaño;
         this.especie=especie;
         this.historiaClinica=new HistoriaClinica("H"+id, this);
@@ -33,5 +34,5 @@ public class Animal {
     public void setDueño(Dueño nuevoDueño){ this.dueño=nuevoDueño; }
 
     //methods
-    public void doAgregarDueño(Dueño nuevoDueño){ this.dueño=nuevoDueño; }
+    public void doEliminarDueño(){ this.dueño=null; }
 }
