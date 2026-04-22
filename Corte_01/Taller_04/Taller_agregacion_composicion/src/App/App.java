@@ -492,12 +492,11 @@ public class App {
                 for (Empleado employee : office.getEmpleados()) {
                     System.out.println("Nombre: " + employee.getNombre() + "| Rol: " + employee.getRol().getNombre() + "| Nivel " + employee.getRol().getNivel());
                 }
+            }
+            for (Tarea task : office.getTareas()) {
+                System.out.println("Tarea: " + task.getDescripcion());
+                System.out.println("Estado: " + task.getEstado());
 
-                for (Tarea task : office.getTareas()) {
-                    System.out.println("Tarea: " + task.getDescripcion());
-                    System.out.println("Estado: " + task.getEstado());
-
-                }
             }
         }
     }

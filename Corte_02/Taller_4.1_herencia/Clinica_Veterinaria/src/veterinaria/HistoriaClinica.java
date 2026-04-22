@@ -23,5 +23,10 @@ public class HistoriaClinica {
     public Animal getAnimal(){ return animal; }
 
     //methods
-    public void doAgregarDueño(Dueño nuevoDueño){ dueños.add(nuevoDueño); }
+    public void doAgregarDueño(Dueño nuevoDueño){ dueños.add(nuevoDueño);
+    }
+    //setter
+    public void setActualizarTratamientos(Tratamiento tratamiento){
+        tratamientos.add(tratamiento);
+    };
 }

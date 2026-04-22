@@ -1,6 +1,7 @@
 package app;
 import veterinaria.*;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,9 +17,11 @@ public class App {
     static ArrayList<Animal> animales = new ArrayList<>();
     static ArrayList<Dueño> dueños= new ArrayList<>();
     static ArrayList<Veterinario> veterinarios = new ArrayList<>();
+    static ArrayList<Tratamiento> tratamientos = new ArrayList<>();
     static int contadorAnimales=0;
     static int contadorDueños=0;
-    static int contadorVeterinarios;
+    static int contadorVeterinarios=0;
+    static int contadorTratamientos=0;
 
     public static void main(String[] args){
 
@@ -30,6 +33,8 @@ public class App {
             switch(opcion){
                 case 1: menuRegistros(); break;
                 case 2: menuAdopciones(); break;
+                case 3: registroTratamiento();break;
+                case 4: subMenuMostrarDatos();break;
             }
         }while(opcion!=5);
 
@@ -243,6 +248,14 @@ public class App {
 
         return null;
     }
+    public static Veterinario buscarVeterinario(String id){
+        for (Veterinario index: veterinarios){
+            if(index.getNumeroLicencia().equals(id)){
+                return index;
+            }
+        }
+        return null;
+    }
 
     public static Animal buscarAnimalDeTransferencia(String id, Dueño dueñoPartida){
 
@@ -432,5 +445,124 @@ public class App {
         System.out.println("Se desvinculo correctamente el animal del dueño");
 
     }
+    public static void registroTratamiento(){
 
+        String idAnimal, nroVeterinario, idTratamiento="T"+contadorTratamientos, nombreTratamiento, descripcionTratamiento;
+        Animal animal;
+        Veterinario veterinario;
+        contadorTratamientos++;
+if(veterinarios.isEmpty() || animales.isEmpty()){
+    System.out.println("No hay veterinarios o animales registrados, vuelva al menu principal y vuelva a intentarlo");
+    return;
+}
+        System.out.println("REGISTRO DE TRATAMIENTOS");
+        System.out.println("Para proceder con el registro de un tratamiento, debe seleccionar un animal y un veterinario.");
+
+        do{
+            System.out.println("Ingrese la ID del animal: ");
+            idAnimal=sc.nextLine();
+            animal=buscarAnimal(idAnimal);
+            if(animal==null){
+                System.out.println("La ID escrita anteriormente no se encuentra registrada, vuelva al menu principal y vuelva intentarlo");
+                return;
+            }
+        }while(animal==null);
+
+
+
+        for(Veterinario index: veterinarios){
+            System.out.println(index.getNumeroLicencia()+" - "+index.getNombre());
+            System.out.println("Especialidad: "+index.getEspecialidad());
+            System.out.println("Anos de Experiencia: "+index.getAñosExperiencia());
+                if(!(index.getPacientes().isEmpty())){
+                    System.out.println("Pacientes: "+index.getPacientes().size());
+                }
+                else{
+                    System.out.println("No cuenta con pacientes");
+                }
+        }
+
+        do{
+            System.out.println("Ingrese el numero de licencia del veterinario:");
+            nroVeterinario=sc.nextLine();
+        }while(buscarVeterinario(nroVeterinario)==null);
+
+        veterinario=buscarVeterinario(nroVeterinario);
+
+        System.out.println("Ingrese el nombre del tratamiento: ");
+        nombreTratamiento=sc.nextLine();
+        System.out.println("Ingrese la descripcion del tratamiento: ");
+        descripcionTratamiento=sc.nextLine();
+        Tratamiento tratamiento= new Tratamiento(idTratamiento, nombreTratamiento, descripcionTratamiento);
+        tratamientos.add(tratamiento);
+        veterinario.setAgregarPaciente(animal);
+        HistoriaClinica historiaClinica = animal.getHistoriaClinica();
+        historiaClinica.setActualizarTratamientos(tratamiento);
+        return;
+
+    }
+    public static void subMenuMostrarDatos(){
+        int opc;
+        System.out.println("MOSTRAR DATOS");
+        System.out.println("1. Mostrar informacion de un animal");
+        System.out.println("2. Mostrar los datos de todos los animales");
+        do {
+             opc=sc.nextInt();
+             sc.nextLine();
+        }while(opc>2 || opc<1);
+
+       datosAnimal(opc);
+    }
+
+    public static void datosAnimal(int opc){
+        String idAnimal;
+        Animal animal;
+
+       if(opc==1) {
+           System.out.println("Ingrese la ID del animal que desea consultar: ");
+           idAnimal = sc.nextLine();
+           animal = buscarAnimal(idAnimal);
+           if (animal == null) {
+               System.out.println("La ID escrita anteriormente no se encuentra registrada, vuelva al menu principal y vuelva intentarlo");
+               return;
+           }
+           mostrarDatos(animal);
+       }
+       else if(opc==2){
+           for(Animal index: animales){
+               mostrarDatos(index);
+           }
+       }
+
+
+
+
+}
+    public static void mostrarDatos(Animal animal){
+        System.out.println("Nombre animal: "+animal.getNombre());
+        System.out.println("ID animal: "+animal.getId());
+        System.out.println("Especie animal :"+animal.getEspecie());
+        System.out.println("Raza animal: "+ animal.getRaza());
+        System.out.println("Tamano animal: "+ animal.getTamaño());
+        if(animal.getDueño()==null){
+            System.out.println("El animal no tiene dueno");
+        }
+        else{
+            System.out.println("Dueno actual del animal: "+ animal.getDueño().getNombre());
+        }
+
+        System.out.println("HISTORIA CLINICA");
+        System.out.println("ID historia clinica: "+animal.getHistoriaClinica().getId());
+        //System.out.println("Tratamientos: "+animal.getHistoriaClinica().getTratamientos().size());
+        if(animal.getHistoriaClinica().getTratamientos().isEmpty()){
+            System.out.println("No hay tratamientos registrados");
+        }
+        else {
+            for(Tratamiento index: animal.getHistoriaClinica().getTratamientos()){
+                System.out.println("ID del tratamiento: "+index.getId());
+                System.out.println("Nombre del tratamiento: "+index.getNombreDelTratamiento());
+                System.out.println("Descripcion del tratamiento: "+index.getDescripcionDelTratamiento());
+            }
+        }
+    }
 }
