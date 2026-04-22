@@ -33,6 +33,6 @@ public class Veterinario extends Persona{
         }
         else{
         System.out.println("El animal ya existia en el sistema");
-        return;}
+        }
     }
 }

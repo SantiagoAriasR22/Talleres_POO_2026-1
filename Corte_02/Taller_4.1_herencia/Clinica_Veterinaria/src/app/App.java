@@ -1,7 +1,6 @@
 package app;
 import veterinaria.*;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -121,16 +120,13 @@ public class App {
         System.out.print("Ingrese el nombre que va a recibir el animal: ");
         nombreMascota=sc.nextLine();
 
-        System.out.println(" ");
         System.out.print("Ingrese la especie del animal: ");
         especieMascota=sc.nextLine();
 
-        System.out.println(" ");
         System.out.print("Ingrese la raza del animal: ");
         razaMascota=sc.nextLine();
 
-        System.out.println(" ");
-        System.out.println("Ingrese el tamaño del animal");
+        System.out.print("Ingrese el tamaño del animal: ");
         tamañoMascota=sc.nextLine();
 
         Animal mascota = new Animal(idMascota, nombreMascota, razaMascota, tamañoMascota, especieMascota);
@@ -159,20 +155,16 @@ public class App {
         System.out.print("Ingrese el nombre del dueño: ");
         nombreDueño=sc.nextLine();
 
-        System.out.println(" ");
         System.out.print("Ingrese el correo electronico del dueño: ");
         correoElectronico=sc.nextLine();
 
-        System.out.println(" ");
         System.out.print("Ingrese el metodo de pago del dueño: ");
         metodoPago=sc.nextLine();
 
-        System.out.println(" ");
         System.out.print("Ingrese la direccion de la vivienda del dueño: ");
         direccionDueño=sc.nextLine();
 
-        System.out.println(" ");
-        System.out.print("Ingrese el numero de telefono del dueño");
+        System.out.print("Ingrese el numero de telefono del dueño: ");
         telefonoDueño=sc.nextLong();
 
         Dueño dueño = new Dueño(idDueño, correoElectronico, metodoPago, nombreDueño, direccionDueño, telefonoDueño);
@@ -202,20 +194,16 @@ public class App {
         System.out.print("Ingrese el nombre del veterinario: ");
         nombreVeterinario=sc.nextLine();
 
-        System.out.println(" ");
         System.out.print("Ingrese la especialidad del veterinario: ");
         especialidad=sc.nextLine();
 
-        System.out.println(" ");
         System.out.print("Ingrese los años de experiencia del veterinario: ");
         añosExperiencia=sc.nextInt();
 
-        System.out.println(" ");
         System.out.print("Ingrese la direccion de la vivienda del veterinario: ");
         direccionVeterinario=sc.nextLine();
 
-        System.out.println(" ");
-        System.out.print("Ingrese el numero de telefono del veterinario");
+        System.out.print("Ingrese el numero de telefono del veterinario: ");
         telefonoVeterinario=sc.nextLong();
 
         Veterinario veterinario = new Veterinario(numeroLicencia, especialidad, añosExperiencia, nombreVeterinario, direccionVeterinario, telefonoVeterinario);
@@ -348,7 +336,6 @@ public class App {
 
         dueñoPartida=buscarDueño(idDueñoPartida);
 
-        System.out.println(" ");
         if(dueñoPartida==null){
             System.out.println("La ID escrita anteriormente no se encuentra registrada, vuelva al menu principal y vuelva intentarlo");
             return;
@@ -367,12 +354,13 @@ public class App {
             System.out.println(" ");
         }
 
+        System.out.println("=============================================================");
+
         System.out.print("Ingrese el ID del animal que quiere transferir: ");
         idAnimal=sc.nextLine();
 
         animal=buscarAnimalDeTransferencia(idAnimal, dueñoPartida);
 
-        System.out.println(" ");
         if(animal==null){
             System.out.println("La ID escrita anteriormente no se encuentra registrada o el animal no esta vinculado con el dueño, vuelva al menu principal y vuelva intentarlo");
             return;
@@ -445,35 +433,39 @@ public class App {
         System.out.println("Se desvinculo correctamente el animal del dueño");
 
     }
+
     public static void registroTratamiento(){
 
-        String idAnimal, nroVeterinario, idTratamiento="T"+contadorTratamientos, nombreTratamiento, descripcionTratamiento;
+        String idAnimal, nroVeterinario, idTratamiento="T"+(++contadorTratamientos), nombreTratamiento, descripcionTratamiento;
         Animal animal;
         Veterinario veterinario;
         contadorTratamientos++;
-if(veterinarios.isEmpty() || animales.isEmpty()){
-    System.out.println("No hay veterinarios o animales registrados, vuelva al menu principal y vuelva a intentarlo");
-    return;
-}
+
+        if(veterinarios.isEmpty() || animales.isEmpty()){
+            System.out.println("No hay veterinarios o animales registrados, vuelva al menu principal y vuelva a intentarlo");
+            return;
+        }
+
         System.out.println("REGISTRO DE TRATAMIENTOS");
         System.out.println("Para proceder con el registro de un tratamiento, debe seleccionar un animal y un veterinario.");
 
-        do{
-            System.out.println("Ingrese la ID del animal: ");
-            idAnimal=sc.nextLine();
-            animal=buscarAnimal(idAnimal);
-            if(animal==null){
-                System.out.println("La ID escrita anteriormente no se encuentra registrada, vuelva al menu principal y vuelva intentarlo");
-                return;
-            }
-        }while(animal==null);
+        System.out.print("Ingrese la ID del animal: ");
+        idAnimal=sc.nextLine();
+        animal=buscarAnimal(idAnimal);
 
+        if(animal==null){
+            System.out.println("La ID escrita anteriormente no se encuentra registrada, vuelva al menu principal y vuelva intentarlo");
+            return;
+        }
 
+        System.out.println("A continuacion se muestran todos los veterinarios disponibles: ");
+        System.out.println(" ");
 
+        System.out.println("==========VETERINARIOS==========");
         for(Veterinario index: veterinarios){
             System.out.println(index.getNumeroLicencia()+" - "+index.getNombre());
             System.out.println("Especialidad: "+index.getEspecialidad());
-            System.out.println("Anos de Experiencia: "+index.getAñosExperiencia());
+            System.out.println("Años de Experiencia: "+index.getAñosExperiencia());
                 if(!(index.getPacientes().isEmpty())){
                     System.out.println("Pacientes: "+index.getPacientes().size());
                 }
@@ -482,25 +474,27 @@ if(veterinarios.isEmpty() || animales.isEmpty()){
                 }
         }
 
+        System.out.println("===============================");
+
         do{
-            System.out.println("Ingrese el numero de licencia del veterinario:");
+            System.out.print("Ingrese el numero de licencia del veterinario: ");
             nroVeterinario=sc.nextLine();
         }while(buscarVeterinario(nroVeterinario)==null);
 
         veterinario=buscarVeterinario(nroVeterinario);
 
-        System.out.println("Ingrese el nombre del tratamiento: ");
+        System.out.print("Ingrese el nombre del tratamiento: ");
         nombreTratamiento=sc.nextLine();
-        System.out.println("Ingrese la descripcion del tratamiento: ");
+        System.out.print("Ingrese la descripcion del tratamiento: ");
         descripcionTratamiento=sc.nextLine();
         Tratamiento tratamiento= new Tratamiento(idTratamiento, nombreTratamiento, descripcionTratamiento);
         tratamientos.add(tratamiento);
         veterinario.setAgregarPaciente(animal);
         HistoriaClinica historiaClinica = animal.getHistoriaClinica();
         historiaClinica.setActualizarTratamientos(tratamiento);
-        return;
 
     }
+
     public static void subMenuMostrarDatos(){
         int opc;
         System.out.println("MOSTRAR DATOS");
@@ -519,7 +513,7 @@ if(veterinarios.isEmpty() || animales.isEmpty()){
         Animal animal;
 
        if(opc==1) {
-           System.out.println("Ingrese la ID del animal que desea consultar: ");
+           System.out.print("Ingrese la ID del animal que desea consultar: ");
            idAnimal = sc.nextLine();
            animal = buscarAnimal(idAnimal);
            if (animal == null) {
@@ -533,27 +527,24 @@ if(veterinarios.isEmpty() || animales.isEmpty()){
                mostrarDatos(index);
            }
        }
+    }
 
-
-
-
-}
     public static void mostrarDatos(Animal animal){
+
         System.out.println("Nombre animal: "+animal.getNombre());
         System.out.println("ID animal: "+animal.getId());
         System.out.println("Especie animal :"+animal.getEspecie());
         System.out.println("Raza animal: "+ animal.getRaza());
-        System.out.println("Tamano animal: "+ animal.getTamaño());
+        System.out.println("Tamaño animal: "+ animal.getTamaño());
         if(animal.getDueño()==null){
-            System.out.println("El animal no tiene dueno");
+            System.out.println("El animal no tiene dueño");
         }
         else{
-            System.out.println("Dueno actual del animal: "+ animal.getDueño().getNombre());
+            System.out.println("Dueño actual del animal: "+ animal.getDueño().getNombre());
         }
 
         System.out.println("HISTORIA CLINICA");
         System.out.println("ID historia clinica: "+animal.getHistoriaClinica().getId());
-        //System.out.println("Tratamientos: "+animal.getHistoriaClinica().getTratamientos().size());
         if(animal.getHistoriaClinica().getTratamientos().isEmpty()){
             System.out.println("No hay tratamientos registrados");
         }
