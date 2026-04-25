@@ -13,14 +13,14 @@ import java.util.Scanner;
 public class App {
 
     static Scanner sc = new Scanner(System.in);
-    static ArrayList<Animal> animales = new ArrayList<>();
-    static ArrayList<Dueño> dueños= new ArrayList<>();
-    static ArrayList<Veterinario> veterinarios = new ArrayList<>();
-    static ArrayList<Tratamiento> tratamientos = new ArrayList<>();
-    static int contadorAnimales=0;
-    static int contadorDueños=0;
-    static int contadorVeterinarios=0;
-    static int contadorTratamientos=0;
+    private static ArrayList<Animal> animales = new ArrayList<>();
+    private static ArrayList<Dueño> dueños= new ArrayList<>();
+    private static ArrayList<Veterinario> veterinarios = new ArrayList<>();
+    private static ArrayList<Tratamiento> tratamientos = new ArrayList<>();
+    private static int contadorAnimales=0;
+    private static int contadorDueños=0;
+    private static int contadorVeterinarios=0;
+    private static int contadorTratamientos=0;
 
     public static void main(String[] args){
 
