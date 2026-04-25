@@ -68,6 +68,7 @@ public class App {
             System.out.println("1. Adoptar un animal");
             System.out.println("2. Transferencia de dueño");
             System.out.println("3. Desvincular dueño de animal");
+            System.out.println("4. Volver al menu principal");
             opcion=sc.nextInt();
             sc.nextLine();
 
@@ -76,7 +77,7 @@ public class App {
                 case 2: transferirAnimal(); break;
                 case 3: desvincularAnimal(); break;
             }
-        }while(opcion<1 || opcion>3);
+        }while(opcion<1 || opcion>4);
 
     }
 
@@ -199,12 +200,14 @@ public class App {
 
         System.out.print("Ingrese los años de experiencia del veterinario: ");
         añosExperiencia=sc.nextInt();
+        sc.nextLine();
 
         System.out.print("Ingrese la direccion de la vivienda del veterinario: ");
         direccionVeterinario=sc.nextLine();
 
         System.out.print("Ingrese el numero de telefono del veterinario: ");
         telefonoVeterinario=sc.nextLong();
+        sc.nextLine();
 
         Veterinario veterinario = new Veterinario(numeroLicencia, especialidad, añosExperiencia, nombreVeterinario, direccionVeterinario, telefonoVeterinario);
         veterinarios.add(veterinario);
@@ -331,13 +334,18 @@ public class App {
         String idDueñoPartida;
         String idDueñoDestino;
 
-        System.out.print("Ingrese la ID de la persona/dueño que quiere transferir al animal");
+        System.out.print("Ingrese la ID de la persona/dueño que quiere transferir al animal: ");
         idDueñoPartida=sc.nextLine();
 
         dueñoPartida=buscarDueño(idDueñoPartida);
 
         if(dueñoPartida==null){
             System.out.println("La ID escrita anteriormente no se encuentra registrada, vuelva al menu principal y vuelva intentarlo");
+            return;
+        }
+
+        if(dueñoPartida.getMascotas().isEmpty()){
+            System.out.println("Esta persona no tiene ningun mascota, por lo que no sera posible la transferencia, vuelva al menu principal");
             return;
         }
 
@@ -398,9 +406,13 @@ public class App {
 
         dueño=buscarDueño(idDueño);
 
-        System.out.println(" ");
         if(dueño==null){
             System.out.println("La ID escrita anteriormente no se encuentra registrada, vuelva al menu principal y vuelva intentarlo");
+            return;
+        }
+
+        if(dueño.getMascotas().isEmpty()){
+            System.out.println("Esta persona no tiene mascotas, por lo que no sera posible desvincular algun animal, regrese al menu");
             return;
         }
 
@@ -439,7 +451,6 @@ public class App {
         String idAnimal, nroVeterinario, idTratamiento="T"+(++contadorTratamientos), nombreTratamiento, descripcionTratamiento;
         Animal animal;
         Veterinario veterinario;
-        contadorTratamientos++;
 
         if(veterinarios.isEmpty() || animales.isEmpty()){
             System.out.println("No hay veterinarios o animales registrados, vuelva al menu principal y vuelva a intentarlo");
@@ -489,15 +500,12 @@ public class App {
         descripcionTratamiento=sc.nextLine();
         Tratamiento tratamiento= new Tratamiento(idTratamiento, nombreTratamiento, descripcionTratamiento);
         tratamientos.add(tratamiento);
+        veterinario.setAgregarPaciente(animal);
+        veterinario.doAgregarTratamiento(animal, tratamiento);
 
-        if(veterinario.setAgregarPaciente(animal)==false){
-            return;
-        }
-        else {
-            veterinario.doAgregarTratamiento(animal, tratamiento);
-        }
-
-
+        System.out.println(" ");
+        System.out.println("Se registro el tratamiento con exito");
+        System.out.println(" ");
     }
 
     public static void subMenuMostrarDatos(){
@@ -558,6 +566,7 @@ public class App {
                 System.out.println("ID del tratamiento: "+index.getId());
                 System.out.println("Nombre del tratamiento: "+index.getNombreDelTratamiento());
                 System.out.println("Descripcion del tratamiento: "+index.getDescripcionDelTratamiento());
+                System.out.println("Fecha del tratamiento: "+index.getFechaTratamiento());
             }
         }
     }

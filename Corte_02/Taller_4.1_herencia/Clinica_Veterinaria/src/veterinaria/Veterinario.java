@@ -26,15 +26,9 @@ public class Veterinario extends Persona{
     //setters
     public void setEspecialidad(String nuevaEspecialidad){ this.especialidad=nuevaEspecialidad; }
     public void setAñosExperiencia(int nuevosAñosExperiencia){ this.añosExperiencia=nuevosAñosExperiencia; }
-    public boolean setAgregarPaciente(Animal animal)
-    {
+    public void setAgregarPaciente(Animal animal) {
         if(!pacientes.contains(animal)){
             pacientes.add(animal);
-            return true;
-        }
-        else{
-            System.out.println("El animal ya existia en el sistema");
-            return false;
         }
     }
 
