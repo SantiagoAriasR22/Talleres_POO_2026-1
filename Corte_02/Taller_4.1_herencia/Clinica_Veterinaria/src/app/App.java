@@ -489,9 +489,14 @@ public class App {
         descripcionTratamiento=sc.nextLine();
         Tratamiento tratamiento= new Tratamiento(idTratamiento, nombreTratamiento, descripcionTratamiento);
         tratamientos.add(tratamiento);
-        veterinario.setAgregarPaciente(animal);
-        HistoriaClinica historiaClinica = animal.getHistoriaClinica();
-        historiaClinica.setActualizarTratamientos(tratamiento);
+
+        if(veterinario.setAgregarPaciente(animal)==false){
+            return;
+        }
+        else {
+            veterinario.doAgregarTratamiento(animal, tratamiento);
+        }
+
 
     }
 

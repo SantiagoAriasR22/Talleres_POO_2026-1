@@ -26,13 +26,21 @@ public class Veterinario extends Persona{
     //setters
     public void setEspecialidad(String nuevaEspecialidad){ this.especialidad=nuevaEspecialidad; }
     public void setAñosExperiencia(int nuevosAñosExperiencia){ this.añosExperiencia=nuevosAñosExperiencia; }
-    public void setAgregarPaciente(Animal animal)
+    public boolean setAgregarPaciente(Animal animal)
     {
         if(!pacientes.contains(animal)){
             pacientes.add(animal);
+            return true;
         }
         else{
-        System.out.println("El animal ya existia en el sistema");
+            System.out.println("El animal ya existia en el sistema");
+            return false;
         }
+    }
+
+    //metodos
+    public void doAgregarTratamiento(Animal animal, Tratamiento tratamiento){
+        HistoriaClinica historiaClinica = animal.getHistoriaClinica();
+        historiaClinica.setActualizarTratamientos(tratamiento);
     }
 }
