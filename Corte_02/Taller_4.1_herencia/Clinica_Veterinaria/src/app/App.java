@@ -501,7 +501,7 @@ public class App {
         Tratamiento tratamiento= new Tratamiento(idTratamiento, nombreTratamiento, descripcionTratamiento);
         tratamientos.add(tratamiento);
         veterinario.setAgregarPaciente(animal);
-        veterinario.doAgregarTratamiento(animal, tratamiento);
+        veterinario.setAgregarTratamiento(animal, tratamiento);
 
         System.out.println(" ");
         System.out.println("Se registro el tratamiento con exito");

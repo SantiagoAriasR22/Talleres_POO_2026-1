@@ -31,9 +31,7 @@ public class Veterinario extends Persona{
             pacientes.add(animal);
         }
     }
-
-    //metodos
-    public void doAgregarTratamiento(Animal animal, Tratamiento tratamiento){
+    public void setAgregarTratamiento(Animal animal, Tratamiento tratamiento){
         HistoriaClinica historiaClinica = animal.getHistoriaClinica();
         historiaClinica.setActualizarTratamientos(tratamiento);
     }
