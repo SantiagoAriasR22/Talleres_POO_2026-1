@@ -2,16 +2,16 @@ package FigurasGeometricas;
 
 public class Circulo extends Figura{
     protected double diametro;
-    public Circulo(int id, String color, double diametro){
-        super(id, color);
+    public Circulo(String tipoFig, int id, String color, double diametro){
+        super(tipoFig, id, color);
         this.diametro = diametro;
     }
     @Override
-    double doCalcularArea() {
-        return Math.PI * diametro * diametro;
+    public double doCalcularArea() {
+        return Math.PI * (diametro/2) * (diametro/2);
     }
     @Override
-    double doCalcularPerimetro() {
+    public double doCalcularPerimetro() {
         return 2 * Math.PI * diametro;
     }
 }
