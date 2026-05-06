@@ -50,12 +50,111 @@ public class App {
                     }
                     break;
 
-                case 4: break;
-                case 5: break;
+                case 4: figurasInvalidas();break;
+                case 5: menuFiguras(); break;
             }
 
         }while(opcion!=6);
 
+    }
+
+    public static void menuFiguras(){
+
+        int opcion;
+
+        System.out.println("=========MENU DE FIGURAS=========");
+
+        System.out.println("Escoja el tipo de figuras que quiere imprimir");
+        do{
+            System.out.println("1. Circulos");
+            System.out.println("2. Pentagono");
+            System.out.println("3. Rectangulo");
+            System.out.println("4. Triangulo");
+            System.out.println("5. Volver al menu");
+
+            opcion=sc.nextInt();
+            sc.nextLine();
+
+            switch(opcion){
+
+                case 1: mostrarCirculo(); break;
+                case 2: mostrarPentagono(); break;
+                case 3: mostrarRectangulo(); break;
+                case 4: mostrarTriangulos(); break;
+
+            }
+
+        }while(opcion!=5);
+    }
+
+    public static void mostrarTriangulos(){
+
+        System.out.println("============LISTADO DE TRIANGULOS============");
+
+        for(Figura f: figuras){
+            if(f instanceof Triangulo triangulo){
+                System.out.println("ID: "+triangulo.getId());
+                System.out.println("Color: "+triangulo.getColor());
+
+                if(Double.isNaN(triangulo.doCalcularArea())) System.out.println("El triangulo no puede ser construido geometricamente");
+
+                else{
+                    System.out.println("Area: "+triangulo.doCalcularArea());
+                    System.out.println("Perimetro: "+triangulo.doCalcularPerimetro());
+                }
+
+                System.out.println("==========================================");
+
+            }
+        }
+    }
+
+    public static void mostrarRectangulo(){
+
+        System.out.println("============LISTADO DE RECTANGULOS==========");
+
+        for(Figura f: figuras){
+            if(f instanceof Rectangulo rectangulo){
+                System.out.println("ID: "+rectangulo.getId());
+                System.out.println("Color: "+rectangulo.getColor());
+                System.out.println("Area: "+rectangulo.doCalcularArea());
+                System.out.println("Perimetro: "+rectangulo.doCalcularPerimetro());
+
+                System.out.println("========================================");
+            }
+        }
+    }
+
+    public static void mostrarPentagono(){
+
+        System.out.println("===========LISTADO DE PENTAGONOS=========");
+
+        for(Figura f: figuras){
+            if(f instanceof Pentagono pentagono){
+                System.out.println("ID: "+pentagono.getId());
+                System.out.println("Color: "+pentagono.getColor());
+                System.out.println("Area: "+pentagono.doCalcularArea());
+                System.out.println("Perimetro: "+pentagono.doCalcularPerimetro());
+
+                System.out.println("====================================");
+            }
+        }
+    }
+
+    public static void mostrarCirculo(){
+
+        System.out.println("=========LISTADO DE CIRCULOS=========");
+
+        for(Figura f: figuras){
+            if(f instanceof Circulo circulo){
+                System.out.println("ID: "+circulo.getId());
+                System.out.println("Color: "+circulo.getColor());
+                System.out.println("Area: "+circulo.doCalcularArea());
+                System.out.println("Perimetro: "+circulo.doCalcularPerimetro());
+
+                System.out.println("=================================");
+            }
+        }
     }
 
     public static void modificarFigura(){
@@ -88,10 +187,111 @@ public class App {
 
             case "Rectangulo":
                 Rectangulo rectangulo=(Rectangulo) figura;
+                modificarRectangulo(rectangulo);
+                break;
 
+            case "Triangulo":
+                Triangulo triangulo=(Triangulo) figura;
+                modificarTriangulo(triangulo);
                 break;
         }
 
+    }
+
+    public static void modificarTriangulo(Triangulo triangulo){
+
+        int opcion;
+
+        do{
+            System.out.println("Los siguientes atributos del triangulo se pueden modificar: ");
+            System.out.println("1. Color");
+            System.out.println("2. Lado 1");
+            System.out.println("3. Lado 2");
+            System.out.println("4. Lado 3");
+
+            System.out.println("Cual quiere modificar?: ");
+            opcion=sc.nextInt();
+            sc.nextLine();
+
+        }while(opcion<1 || opcion>4);
+
+        switch(opcion){
+
+            case 1: cambiarColor(triangulo); break;
+
+            case 2:
+                double lado1;
+
+                do{
+                    System.out.print("Ingrese el nuevo valor que va a tener el lado1: ");
+                    lado1=sc.nextInt();
+                    sc.nextLine();
+
+                    if(lado1<=0) System.out.println("El lado tiene que tener un valor mayor a 0");
+
+                }while(lado1<=0);
+
+                triangulo.setLado1(lado1);
+
+                System.out.println("Se modifico el lado 1 con exito");
+                break;
+
+            case 3:
+                double lado2;
+
+                do{
+                    System.out.print("Ingrese el nuevo valor que va a tener el lado2: ");
+                    lado2=sc.nextInt();
+                    sc.nextLine();
+
+                    if(lado2<=0) System.out.println("El lado tiene que tener un valor mayor a 0");
+
+                }while(lado2<=0);
+
+                triangulo.setLado2(lado2);
+
+                System.out.println("Se modifico el lado 1 con exito");
+                break;
+
+            case 4:
+                double lado3;
+
+                do{
+                    System.out.print("Ingrese el nuevo valor que va a tener el lado3: ");
+                    lado3=sc.nextInt();
+                    sc.nextLine();
+
+                    if(lado3<=0) System.out.println("El lado tiene que tener un valor mayor a 0");
+
+                }while(lado3<=0);
+
+                triangulo.setLado3(lado3);
+
+                System.out.println("Se modifico el lado 3 con exito");
+                break;
+
+        }
+    }
+
+    public static void figurasInvalidas(){
+
+        System.out.println("=============LISTADO DE FIGURAS QUE NO PUEDEN SER CONSTRUIDAS GEOMETRICAMENTE============");
+
+        for(Figura f: figuras){
+
+            if(f instanceof Triangulo triangulo){
+                if(Double.isNaN(triangulo.doCalcularArea())){
+                    System.out.println("Tipo de figura: "+triangulo.getTipoFig());
+                    System.out.println("ID: "+triangulo.getId());
+                    System.out.println("Color: "+triangulo.getColor());
+                    System.out.println("Lado 1: "+triangulo.getLado1());
+                    System.out.println("Lado 2: "+triangulo.getLado2());
+                    System.out.println("Lado 3: "+triangulo.getLado3());
+
+                    System.out.println("=========================================================================================");
+                }
+            }
+        }
     }
 
     public static void modificarRectangulo(Rectangulo rectangulo){
@@ -111,6 +311,7 @@ public class App {
         }while (opcion<1 || opcion>3);
 
         switch(opcion){
+
             case 1: cambiarColor(rectangulo); break;
             case 2:
                 double base;
@@ -226,7 +427,7 @@ public class App {
         int opcion;
 
         do {
-            System.out.print("Seleccione el color que quiere asignarle a la figura: ");
+            System.out.println("Seleccione el color que quiere asignarle a la figura: ");
             System.out.println("1. Rojo");
             System.out.println("2. Azul");
             System.out.println("3. Amarillo");
@@ -295,7 +496,7 @@ public class App {
             System.out.println("2. Cambiar datos de figura mediante la ID");
             System.out.println("3. Mostrar todas las figuras");
             System.out.println("4. Mostrar figuras inexistentes");
-            System.out.println("5. Mostrar un tipo de figura");
+            System.out.println("5. Mostrar un tipo de figura especifica");
             System.out.println("6. Salir");
             opcion=sc.nextInt();
             sc.nextLine();

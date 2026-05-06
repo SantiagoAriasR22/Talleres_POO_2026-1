@@ -13,6 +13,13 @@ public class Triangulo extends Figura{
         this.lado3 = lado3;
     }
 
+    //getters
+    public double getLado1(){return lado1; }
+
+    public double getLado2(){return lado2; }
+
+    public double getLado3(){return lado3; }
+
     //setters
     public void setLado1(double nuevoLado1){this.lado1=nuevoLado1; }
 
