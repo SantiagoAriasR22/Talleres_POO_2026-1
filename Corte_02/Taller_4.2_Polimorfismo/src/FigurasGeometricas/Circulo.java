@@ -20,6 +20,6 @@ public class Circulo extends Figura{
 
     @Override
     public double doCalcularPerimetro() {
-        return 2 * Math.PI * diametro;
+        return   Math.PI * diametro;
     }
 }

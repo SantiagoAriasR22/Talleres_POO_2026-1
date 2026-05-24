@@ -3,11 +3,12 @@ package nodos;
 
 import java.util.ArrayList;
 import semaforo.Semaforo;
+import main.Main; 
 
 public class NodoMaestro extends Thread{
     
     private Semaforo semaphore;
-    private ArrayList<Mensaje> mensajesProcesados = new ArrayList<>();
+    private static ArrayList<Mensaje> mensajesProcesados = new ArrayList<>();
     private String estado="Disponible";
     private int velocidadProcesamiento;
     
@@ -21,6 +22,12 @@ public class NodoMaestro extends Thread{
         try {
             while(!Thread.currentThread().isInterrupted()){
                 try {
+                    synchronized (Main.class) {
+                    while (Main.statusThreads()) 
+                        {   
+                        Main.class.wait(); 
+                        }
+    }
                     
                     Mensaje mensajeProcesado=semaphore.retirarMensaje();
                     
@@ -44,6 +51,9 @@ public class NodoMaestro extends Thread{
     
     public ArrayList<Mensaje> getMensajesProcesados(){
         return mensajesProcesados;
+    }
+    public static void clearMessage(){
+        mensajesProcesados.clear(); 
     }
     
 }

@@ -15,8 +15,8 @@ import java.util.Scanner;
 
 public class App {
 
-    static ArrayList<Figura> figuras = new ArrayList<>();
-    static Scanner sc = new Scanner(System.in);
+    private static ArrayList<Figura> figuras = new ArrayList<>();
+    private static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
 
@@ -463,15 +463,20 @@ public class App {
             System.out.println("La ID de la figura digitada no existe, por favor vuelva al menu e intentelo nuevamente");
             return;
         }
-
         System.out.println("==========DATOS DE LA FIGURA=========");
-        System.out.println("ID: "+figura.getId());
-        System.out.println("Tipo de figura: "+figura.getTipoFig());
-        System.out.println("Color: "+figura.getColor());
-        System.out.println("Area: "+figura.doCalcularArea());
-        System.out.println("Perimetro: "+figura.doCalcularPerimetro());
-        System.out.println("=====================================");
+        System.out.println("ID: " + figura.getId());
+        System.out.println("Tipo de figura: " + figura.getTipoFig());
+        System.out.println("Color: " + figura.getColor());
+    if(figura.getTipoFig().equals("Triangulo") && Double.isNaN(figura.doCalcularArea())) {
 
+        System.out.println("NOTA: La figura no puede ser construida geometricamente");
+        System.out.println("=====================================");
+    }
+    else {
+        System.out.println("Area: " + figura.doCalcularArea());
+        System.out.println("Perimetro: " + figura.doCalcularPerimetro());
+        System.out.println("=====================================");
+         }
     }
 
     public static Figura encontrarFigura(int idBuscada){

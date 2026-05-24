@@ -17,6 +17,7 @@ public class Main {
     private static ArrayList<NodoSecundario> nodosEnEjecucion=new ArrayList<>();
     private static Semaforo semaphore = new Semaforo();
     private static NodoMaestro maestro;
+    private static volatile boolean pausado = false;
     
     public static void main(String[] args) {
         
@@ -66,6 +67,8 @@ public class Main {
             
             switch(opcion){
                 case 1: start();break;
+                case 2: pause();break;
+                case 3: restart();break;
             }
         }while(opcion!=4);
     }
@@ -137,7 +140,7 @@ public class Main {
             System.out.println("Primero indique cuales nodos van a ser activos y la velocidad de procesamiento del nodo maestro");
             return;
         }
-        
+        pausado = false; 
         maestro = new NodoMaestro(semaphore, velocidadProcesamiento);
         maestro.start();
         
@@ -147,5 +150,29 @@ public class Main {
             nodoSecundario.start();
         }
         
+    }
+    public static void pause(){
+                if(velocidadProcesamiento==0 || nodosSecundarios==0){
+            System.out.println("Primero inicie el proceso de ejecucion");
+            return;
+        }
+        synchronized(Main.class){
+        pausado = true; 
+        System.out.println("Se han pausado los hilos");
+    }
+    }
+    public static boolean statusThreads(){
+        return pausado; 
+    }
+    
+    public static void restart(){
+        pause(); 
+        mensajesTotales.clear(); 
+        nodosEnEjecucion.clear();
+        Semaforo.clearTail();
+        NodoMaestro.clearMessage(); 
+        velocidadProcesamiento=0; 
+        nodosSecundarios=0; 
+        System.out.println("Se han reiniciado todos los valores, asigne velocidad de procesamiento y los nodos que desea ejecutar. Seguido presione start");
     }
 }

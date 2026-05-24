@@ -6,7 +6,7 @@ import nodos.Mensaje;
 
 public class Semaforo {
     
-    private ArrayList<Mensaje> colaEspera = new ArrayList<>();
+    private static ArrayList<Mensaje> colaEspera = new ArrayList<>();
     private Semaphore semaphoreNodoMaestro = new Semaphore(0); //se encarga de avisarle al nodo maestro que hay mensajes en cola
     private Semaphore semaphoreMensajes = new Semaphore(1); //Evita que dos hilos intenten guardar un mensaje en la misma celda
     private Semaphore semaphoreColaEspera = new Semaphore(1000); //lleva el conteo de cuantos espacios libre hay en la cola de espera
@@ -41,6 +41,9 @@ public class Semaforo {
         }
         
         return message;
+    }
+    public static void clearTail(){
+        colaEspera.clear();
     }
         
 }

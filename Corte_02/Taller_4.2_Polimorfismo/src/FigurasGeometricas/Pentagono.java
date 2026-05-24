@@ -15,7 +15,7 @@ public class Pentagono extends Figura{
     //methods abstracts
     @Override
     public double doCalcularArea(){
-        return ((5*lados)*lados/2*Math.tan(36))/2;
+        return (5*(lados*lados))/(4*Math.tan(Math.PI/5));
     }
 
     @Override

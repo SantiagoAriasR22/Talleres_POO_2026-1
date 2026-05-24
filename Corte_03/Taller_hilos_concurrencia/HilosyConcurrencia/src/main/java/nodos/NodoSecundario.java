@@ -2,6 +2,7 @@
 package nodos;
 
 import semaforo.Semaforo;
+import main.Main; 
 
 public class NodoSecundario extends Thread{
     
