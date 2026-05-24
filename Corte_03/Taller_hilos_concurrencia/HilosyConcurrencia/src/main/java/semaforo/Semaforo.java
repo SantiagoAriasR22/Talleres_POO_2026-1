@@ -42,8 +42,11 @@ public class Semaforo {
         
         return message;
     }
-    public static void clearTail(){
+    public void clearTail(){
         colaEspera.clear();
+        semaphoreNodoMaestro.drainPermits(); 
+        semaphoreColaEspera.drainPermits();  
+        semaphoreColaEspera.release(1000);
     }
         
 }

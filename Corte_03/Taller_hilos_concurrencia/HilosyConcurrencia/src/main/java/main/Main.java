@@ -17,9 +17,12 @@ public class Main {
     private static ArrayList<NodoSecundario> nodosEnEjecucion=new ArrayList<>();
     private static Semaforo semaphore = new Semaforo();
     private static NodoMaestro maestro;
-    private static volatile boolean pausado = false;
+    private static volatile boolean pausado = true;
+ //   private static int conter=0; 
     
     public static void main(String[] args) {
+        
+        createNodos(); 
         
         int opcion;
         
@@ -94,7 +97,9 @@ public class Main {
                 case 3: velocidadProcesamiento=1500; break;
                 case 4: velocidadProcesamiento=1000; break;
             }
-            
+            if(opcion>0 && opcion<5){
+                maestro.setVelocidadProcesamiento(velocidadProcesamiento); 
+            } 
         }while(opcion!=5);
     }
     
@@ -141,38 +146,47 @@ public class Main {
             return;
         }
         pausado = false; 
-        maestro = new NodoMaestro(semaphore, velocidadProcesamiento);
-        maestro.start();
+        synchronized(maestro) {
+            maestro.notify();
+         }
         
-        for(int i=0; i<nodosSecundarios; i++){
-            NodoSecundario nodoSecundario = new NodoSecundario(semaphore, "N"+(i+1));
-            nodosEnEjecucion.add(nodoSecundario);
-            nodoSecundario.start();
+            for (int i = 0; i < nodosSecundarios; i++) {
+                NodoSecundario nodo = nodosEnEjecucion.get(i);
+                    synchronized (nodo) {
+                        nodo.notify(); 
+            }
         }
-        
     }
     public static void pause(){
                 if(velocidadProcesamiento==0 || nodosSecundarios==0){
-            System.out.println("Primero inicie el proceso de ejecucion");
-            return;
+                    System.out.println("Primero inicie el proceso de ejecucion");
+                    return;
         }
-        synchronized(Main.class){
-        pausado = true; 
-        System.out.println("Se han pausado los hilos");
-    }
+                    
+                    pausado = true; 
+                    System.out.println("Se han pausado los hilos");
+    
     }
     public static boolean statusThreads(){
         return pausado; 
+    }
+    public static void createNodos(){
+        for(int i=0; i<5; i++){
+            NodoSecundario nodoSecundario = new NodoSecundario(semaphore, "N"+(i+1));
+            nodoSecundario.start();
+            nodosEnEjecucion.add(nodoSecundario);
+             
+        }
+                maestro = new NodoMaestro(semaphore, velocidadProcesamiento);
+                maestro.start();
+                
     }
     
     public static void restart(){
         pause(); 
         mensajesTotales.clear(); 
-        nodosEnEjecucion.clear();
-        Semaforo.clearTail();
-        NodoMaestro.clearMessage(); 
-        velocidadProcesamiento=0; 
-        nodosSecundarios=0; 
+        semaphore.clearTail();
+        maestro.clearMessage();
         System.out.println("Se han reiniciado todos los valores, asigne velocidad de procesamiento y los nodos que desea ejecutar. Seguido presione start");
     }
 }

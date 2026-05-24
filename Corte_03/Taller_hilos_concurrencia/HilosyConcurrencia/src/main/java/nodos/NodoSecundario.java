@@ -30,6 +30,11 @@ public class NodoSecundario extends Thread{
         try {
             while(!Thread.currentThread().isInterrupted()){
                 try {
+                    synchronized (this) {
+                    while (Main.statusThreads()) {
+                    this.wait(); 
+                        }
+}
                     
                     message= new Mensaje(id, doCalculoPromedioTemperatura(), doCalculoPromedioHumedad(), doCalculoPromedioLuminiscencia());
                     semaphore.guardarMensaje(message);

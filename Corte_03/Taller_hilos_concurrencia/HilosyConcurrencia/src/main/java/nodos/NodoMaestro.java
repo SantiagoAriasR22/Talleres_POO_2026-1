@@ -16,16 +16,19 @@ public class NodoMaestro extends Thread{
         this.semaphore=semaphore;
         this.velocidadProcesamiento=velocidadProcesamiento;
     }
+    public void setVelocidadProcesamiento(int velocidad){
+        this.velocidadProcesamiento=velocidad; 
+    }
     
     @Override
     public void run(){
         try {
             while(!Thread.currentThread().isInterrupted()){
                 try {
-                    synchronized (Main.class) {
+                    synchronized (this) {
                     while (Main.statusThreads()) 
                         {   
-                        Main.class.wait(); 
+                        this.wait(); 
                         }
     }
                     
