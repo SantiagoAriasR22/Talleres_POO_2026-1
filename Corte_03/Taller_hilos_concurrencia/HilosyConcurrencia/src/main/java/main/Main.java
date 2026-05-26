@@ -18,7 +18,7 @@ public class Main {
     private static Semaforo semaphore = new Semaforo();
     private static NodoMaestro maestro;
     private static volatile boolean pausado = true;
- //   private static int conter=0; 
+ 
     
     public static void main(String[] args) {
         
@@ -101,6 +101,8 @@ public class Main {
                 maestro.setVelocidadProcesamiento(velocidadProcesamiento); 
             } 
         }while(opcion!=5);
+        System.out.println("Se ha actualizado el tiempo de procesamiento");
+        return; 
     }
     
     public static void SecondaryNode(){
@@ -131,7 +133,10 @@ public class Main {
     }
     
     public static void records(){
-        
+        if(maestro.getMensajesProcesados().isEmpty()){
+            System.out.println("Aun no existe ningun registro.");
+            return; 
+        }
         for(Mensaje message: maestro.getMensajesProcesados()){
             
             System.out.println("ID: "+ message.getId() +" Temperatura: "+message.getTemperatura()+" Humedad: "+message.getHumedad()+"%"+" Luminiscencia: "+message.getLuminiscencia());
