@@ -6,16 +6,18 @@ import java.util.Scanner;
 import nodos.Mensaje;
 import nodos.NodoMaestro;
 import nodos.NodoSecundario;
+import semaforo.ControlPausaYReinicio;
 import semaforo.Semaforo;
 
 public class Main {
     
     private static Scanner sc = new Scanner(System.in);
-    private static int nodosSecundarios=0;
-    private static int velocidadProcesamiento=0;
+    private static volatile int nodosSecundarios=0;
+    private static volatile int velocidadProcesamiento=0;
     private static ArrayList<Mensaje> mensajesTotales=new ArrayList<>();
     private static ArrayList<NodoSecundario> nodosEnEjecucion=new ArrayList<>();
     private static Semaforo semaphore = new Semaforo();
+    private static ControlPausaYReinicio control = new ControlPausaYReinicio();
     private static NodoMaestro maestro;
     private static volatile boolean pausado = true;
  
@@ -129,15 +131,21 @@ public class Main {
                 case 5: nodosSecundarios=5; break;
             }
             
+            if(opcion>=1 && opcion<=5){
+                control.notificarNodos();
+                System.out.println("Se cambio la cantidad de nodos activos con exito");
+            }
+            
         }while(opcion!=6);
     }
     
-    public static void records(){
-        if(maestro.getMensajesProcesados().isEmpty()){
+    public static synchronized void records(){
+        
+        if(mensajesTotales.isEmpty()){
             System.out.println("Aun no existe ningun registro.");
             return; 
         }
-        for(Mensaje message: maestro.getMensajesProcesados()){
+        for(Mensaje message: mensajesTotales){
             
             System.out.println("ID: "+ message.getId() +" Temperatura: "+message.getTemperatura()+" Humedad: "+message.getHumedad()+"%"+" Luminiscencia: "+message.getLuminiscencia());
         }
@@ -150,48 +158,56 @@ public class Main {
             System.out.println("Primero indique cuales nodos van a ser activos y la velocidad de procesamiento del nodo maestro");
             return;
         }
-        pausado = false; 
-        synchronized(maestro) {
-            maestro.notify();
-         }
         
-            for (int i = 0; i < nodosSecundarios; i++) {
-                NodoSecundario nodo = nodosEnEjecucion.get(i);
-                    synchronized (nodo) {
-                        nodo.notify(); 
-            }
-        }
+        pausado=false;
+        control.reanudar();
+         
     }
+    
     public static void pause(){
-                if(velocidadProcesamiento==0 || nodosSecundarios==0){
-                    System.out.println("Primero inicie el proceso de ejecucion");
-                    return;
+        
+        if(velocidadProcesamiento==0 || nodosSecundarios==0){
+            System.out.println("Primero inicie el proceso de ejecucion");
+            return;
         }
                     
-                    pausado = true; 
-                    System.out.println("Se han pausado los hilos");
+        pausado=true;
+        System.out.println("Se han pausado los hilos");
+        control.pausar();
     
     }
-    public static boolean statusThreads(){
-        return pausado; 
-    }
+    
+   
     public static void createNodos(){
+        
         for(int i=0; i<5; i++){
-            NodoSecundario nodoSecundario = new NodoSecundario(semaphore, "N"+(i+1));
+            NodoSecundario nodoSecundario = new NodoSecundario(control, semaphore, "N"+(i+1), i+1);
             nodoSecundario.start();
             nodosEnEjecucion.add(nodoSecundario);
              
         }
-                maestro = new NodoMaestro(semaphore, velocidadProcesamiento);
-                maestro.start();
-                
+            maestro = new NodoMaestro(control, semaphore, velocidadProcesamiento);
+            maestro.start();
+                  
     }
     
-    public static void restart(){
-        pause(); 
+    public static synchronized void restart(){
+        pausado=true;
+        pause();
         mensajesTotales.clear(); 
-        semaphore.clearTail();
-        maestro.clearMessage();
+        semaphore.limpiarColaMensajes();
         System.out.println("Se han reiniciado todos los valores, asigne velocidad de procesamiento y los nodos que desea ejecutar. Seguido presione start");
+    }
+    
+    public static int nodosSecundariosActivos(){
+        return nodosSecundarios;
+    }
+
+    public static boolean statusThreads() {
+        return pausado; 
+    }
+    
+    public static synchronized void setMensajesTotales(Mensaje message){
+        mensajesTotales.add(message);
     }
 }

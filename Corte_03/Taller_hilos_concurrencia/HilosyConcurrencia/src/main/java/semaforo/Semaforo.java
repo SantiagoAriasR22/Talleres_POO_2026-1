@@ -2,6 +2,7 @@ package semaforo;
 
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+import main.Main;
 import nodos.Mensaje;
 
 public class Semaforo {
@@ -9,11 +10,15 @@ public class Semaforo {
     private static ArrayList<Mensaje> colaEspera = new ArrayList<>();
     private Semaphore semaphoreNodoMaestro = new Semaphore(0); //se encarga de avisarle al nodo maestro que hay mensajes en cola
     private Semaphore semaphoreMensajes = new Semaphore(1); //Evita que dos hilos intenten guardar un mensaje en la misma celda
-    private Semaphore semaphoreColaEspera = new Semaphore(1000); //lleva el conteo de cuantos espacios libre hay en la cola de espera
+    private Semaphore semaphoreColaEspera = new Semaphore(10); //lleva el conteo de cuantos espacios libre hay en la cola de espera
         
     public void guardarMensaje(Mensaje message){
             
         try {
+            
+            if(Main.statusThreads()){ 
+                return; 
+            }
             semaphoreColaEspera.acquire(); //primero verifica si hay espacio en el array list a traves del semaforo si es mayor a 1 lo deja pasar, si no se duerme
             semaphoreMensajes.acquire(); //ahora verifica si no hay otro hilo modificando el arraylist, si es 1 no hay nadie y es libre de modificarlo, si es 0 le toca esperar
             colaEspera.add(message); //agregue el mensaje al arraylist
@@ -42,11 +47,25 @@ public class Semaforo {
         
         return message;
     }
-    public void clearTail(){
-        colaEspera.clear();
-        semaphoreNodoMaestro.drainPermits(); 
-        semaphoreColaEspera.drainPermits();  
-        semaphoreColaEspera.release(1000);
+    
+    public void limpiarColaMensajes(){
+        
+        boolean permisoAdquirido=false;
+        
+        try {
+            semaphoreMensajes.acquire();
+            permisoAdquirido=true;
+            colaEspera.clear();
+            semaphoreNodoMaestro.drainPermits(); 
+            semaphoreColaEspera.drainPermits();  
+            semaphoreColaEspera.release(10);
+            
+        } catch (Exception e) {
+            System.out.println("Error al reiniciar la cola "+e);
+        } finally {
+            
+            if(permisoAdquirido) semaphoreMensajes.release();
+        }
     }
         
 }

@@ -2,12 +2,14 @@
 package nodos;
 
 import semaforo.Semaforo;
-import main.Main; 
+import semaforo.ControlPausaYReinicio;
 
 public class NodoSecundario extends Thread{
     
-    private String id;
+    private int id;
+    private String idNodo;
     private Semaforo semaphore;
+    private ControlPausaYReinicio control;
     private Mensaje message;
     private NodoDestino nodoDestino1;
     private NodoDestino nodoDestino2;
@@ -15,8 +17,10 @@ public class NodoSecundario extends Thread{
     private NodoDestino nodoDestino4;
     private NodoDestino nodoDestino5;
     
-    public NodoSecundario(Semaforo semaphore, String id){
+    public NodoSecundario(ControlPausaYReinicio control, Semaforo semaphore, String idNodo, int id){
+        this.control=control;
         this.semaphore=semaphore;
+        this.idNodo=idNodo;
         this.id=id;
         this.nodoDestino1= new NodoDestino();
         this.nodoDestino2= new NodoDestino();
@@ -30,13 +34,10 @@ public class NodoSecundario extends Thread{
         try {
             while(!Thread.currentThread().isInterrupted()){
                 try {
-                    synchronized (this) {
-                    while (Main.statusThreads()) {
-                    this.wait(); 
-                        }
-}
                     
-                    message= new Mensaje(id, doCalculoPromedioTemperatura(), doCalculoPromedioHumedad(), doCalculoPromedioLuminiscencia());
+                    control.verificarEstado(id);
+                    message= new Mensaje(idNodo, doCalculoPromedioTemperatura(), doCalculoPromedioHumedad(), doCalculoPromedioLuminiscencia());
+                    
                     semaphore.guardarMensaje(message);
                     
                     Thread.sleep(800);

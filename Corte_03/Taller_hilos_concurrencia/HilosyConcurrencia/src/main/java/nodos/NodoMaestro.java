@@ -1,21 +1,24 @@
 
 package nodos;
 
-import java.util.ArrayList;
 import semaforo.Semaforo;
-import main.Main; 
+import semaforo.ControlPausaYReinicio;
+import main.Main;
 
 public class NodoMaestro extends Thread{
     
+    private ControlPausaYReinicio control;
     private Semaforo semaphore;
-    private static ArrayList<Mensaje> mensajesProcesados = new ArrayList<>();
     private String estado="Disponible";
     private int velocidadProcesamiento;
+    private Mensaje mensajeProcesado;
     
-    public NodoMaestro(Semaforo semaphore, int velocidadProcesamiento){
+    public NodoMaestro(ControlPausaYReinicio control, Semaforo semaphore, int velocidadProcesamiento){
+        this.control=control;
         this.semaphore=semaphore;
         this.velocidadProcesamiento=velocidadProcesamiento;
     }
+    
     public void setVelocidadProcesamiento(int velocidad){
         this.velocidadProcesamiento=velocidad; 
     }
@@ -25,19 +28,14 @@ public class NodoMaestro extends Thread{
         try {
             while(!Thread.currentThread().isInterrupted()){
                 try {
-                    synchronized (this) {
-                    while (Main.statusThreads()) 
-                        {   
-                        this.wait(); 
-                        }
-    }
                     
-                    Mensaje mensajeProcesado=semaphore.retirarMensaje();
+                    control.verificarEstado(1);
+                    mensajeProcesado=semaphore.retirarMensaje();
                     
                     if(mensajeProcesado!=null){
                         //System.out.println("Ocupado");
                         Thread.sleep(velocidadProcesamiento);
-                        mensajesProcesados.add(mensajeProcesado);
+                        Main.setMensajesTotales(mensajeProcesado);
                         
                         //System.out.println("Disponible");
                     }
@@ -50,13 +48,6 @@ public class NodoMaestro extends Thread{
         } catch (InterruptedException e) {
             System.out.println("El hilo finalizo exitosamente "+e);
         }
-    }
-    
-    public ArrayList<Mensaje> getMensajesProcesados(){
-        return mensajesProcesados;
-    }
-    public static void clearMessage(){
-        mensajesProcesados.clear(); 
     }
     
 }
