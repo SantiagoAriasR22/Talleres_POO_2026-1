@@ -1,4 +1,7 @@
-
+/*ELABORADO POR
+-ALEX DAVID FLOREZ CERRO 0222510031
+-ANGEL DANIEL MERCHAN VILLAMIZAR 0222510035
+-DAVID SANTIAGO ARIAS ROJAS 0222510022*/
 package main;
 
 import java.util.ArrayList;
@@ -190,13 +193,24 @@ public class Main {
             maestro.start();
                   
     }
+    public static void killNodos(){
+        
+        for(NodoSecundario index: nodosEnEjecucion){
+            index.interrupt();
+        }
+        maestro.interrupt();
+    }
     
     public static synchronized void restart(){
         pausado=true;
-        pause();
+        killNodos();
+        nodosEnEjecucion.clear();
         mensajesTotales.clear(); 
         semaphore.limpiarColaMensajes();
-        System.out.println("Se han reiniciado todos los valores, asigne velocidad de procesamiento y los nodos que desea ejecutar. Seguido presione start");
+        velocidadProcesamiento=0;
+        nodosSecundarios=0;
+        createNodos();
+        System.out.println("Se han reiniciado todos los valores.");
     }
     
     public static int nodosSecundariosActivos(){
@@ -209,5 +223,18 @@ public class Main {
     
     public static synchronized void setMensajesTotales(Mensaje message){
         mensajesTotales.add(message);
+        InterfazGrafica.ventana.mostrarMensaje(
+            "ID: " + message.getId()
+            + " Temp: " + message.getTemperatura()
+            + " Humedad: " + message.getHumedad()
+            + "%"
+        );
+    }
+    public static void setVelocidad(int velocidad){
+        velocidadProcesamiento = velocidad;
+    }
+
+    public static void setNodos(int nodos){
+        nodosSecundarios = nodos;
     }
 }
