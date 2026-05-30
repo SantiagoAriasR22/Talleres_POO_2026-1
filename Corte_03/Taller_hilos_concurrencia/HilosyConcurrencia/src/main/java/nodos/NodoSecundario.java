@@ -7,20 +7,19 @@ import semaforo.ControlPausaYReinicio;
 public class NodoSecundario extends Thread{
     
     private int id;
-    private String idNodo;
     private Semaforo semaphore;
     private ControlPausaYReinicio control;
     private Mensaje message;
     private NodoDestino nodoDestino;
+    private int velocidadProcesamiento;
 
     
-    public NodoSecundario(ControlPausaYReinicio control, Semaforo semaphore, String idNodo, int id){
+    public NodoSecundario(ControlPausaYReinicio control, Semaforo semaphore, int id, int velocidadProcesamiento){
         this.control=control;
         this.semaphore=semaphore;
-        this.idNodo=idNodo;
         this.id=id;
         this.nodoDestino= new NodoDestino();
-
+        this.velocidadProcesamiento=velocidadProcesamiento;
     }
     
     @Override
@@ -30,19 +29,23 @@ public class NodoSecundario extends Thread{
                 try {
                     
                     control.verificarEstado(id);
-                    message= new Mensaje(idNodo, nodoDestino.getTemperatura(), nodoDestino.getHumedad(), nodoDestino.getLuminiscencia());
+                    message= new Mensaje(id, nodoDestino.getTemperatura(), nodoDestino.getHumedad(), nodoDestino.getLuminiscencia());
                     
                     semaphore.guardarMensaje(message);
                     
-                    Thread.sleep(800);
+                    Thread.sleep(velocidadProcesamiento-20);
                     
                 } catch (RuntimeException e) {
                     System.out.println("Ocurrio un error inesperado "+e);
                 }
             }
         } catch (InterruptedException e) {
-            System.out.println("El hilo finalizo exitosamente "+e);
+            
         }
+    }
+    
+    public void setVelocidadProcesamiento(int velocidadProcesamiento){
+        this.velocidadProcesamiento=velocidadProcesamiento;
     }
     
 }

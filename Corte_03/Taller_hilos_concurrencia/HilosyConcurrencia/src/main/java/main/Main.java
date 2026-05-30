@@ -103,7 +103,11 @@ public class Main {
                 case 4: velocidadProcesamiento=1000; break;
             }
             if(opcion>0 && opcion<5){
-                maestro.setVelocidadProcesamiento(velocidadProcesamiento); 
+                maestro.setVelocidadProcesamiento(velocidadProcesamiento);
+                
+                for(NodoSecundario nodo : nodosEnEjecucion){
+                    nodo.setVelocidadProcesamiento(velocidadProcesamiento);
+                }
             } 
         }while(opcion!=5);
         System.out.println("Se ha actualizado el tiempo de procesamiento");
@@ -150,7 +154,7 @@ public class Main {
         }
         for(Mensaje message: mensajesTotales){
             
-            System.out.println("ID: "+ message.getId() +" Temperatura: "+message.getTemperatura()+" Humedad: "+message.getHumedad()+"%"+" Luminiscencia: "+message.getLuminiscencia());
+            System.out.println("ID: "+ (message.getId()+1) +" Temperatura: "+message.getTemperatura()+" Humedad: "+message.getHumedad()+"%"+" Luminiscencia: "+message.getLuminiscencia());
         }
         
     }
@@ -184,7 +188,7 @@ public class Main {
     public static void createNodos(){
         
         for(int i=0; i<5; i++){
-            NodoSecundario nodoSecundario = new NodoSecundario(control, semaphore, "N"+(i+1), i+1);
+            NodoSecundario nodoSecundario = new NodoSecundario(control, semaphore, i, velocidadProcesamiento);
             nodoSecundario.start();
             nodosEnEjecucion.add(nodoSecundario);
              
@@ -223,12 +227,12 @@ public class Main {
     
     public static synchronized void setMensajesTotales(Mensaje message){
         mensajesTotales.add(message);
-        InterfazGrafica.ventana.mostrarMensaje(
+        /*InterfazGrafica.ventana.mostrarMensaje(
             "ID: " + message.getId()
             + " Temp: " + message.getTemperatura()
             + " Humedad: " + message.getHumedad()
             + "%"
-        );
+        );*/
     }
     public static void setVelocidad(int velocidad){
         velocidadProcesamiento = velocidad;

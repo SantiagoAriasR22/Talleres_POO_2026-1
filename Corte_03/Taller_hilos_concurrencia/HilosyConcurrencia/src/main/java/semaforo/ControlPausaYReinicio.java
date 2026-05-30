@@ -18,7 +18,7 @@ public class ControlPausaYReinicio {
     public void verificarEstado(int id) throws InterruptedException{
         lock.lock();
         try {
-            while(pausa || id > Main.nodosSecundariosActivos()){
+            while(pausa || id > Main.nodosSecundariosActivos()-1){
                 condicionPausa.await();
             }
         } finally {

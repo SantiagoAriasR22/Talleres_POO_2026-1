@@ -29,7 +29,7 @@ public class NodoMaestro extends Thread{
             while(!Thread.currentThread().isInterrupted()){
                 try {
                     
-                    control.verificarEstado(1);
+                    control.verificarEstado(0);
                     mensajeProcesado=semaphore.retirarMensaje();
                     
                     if(mensajeProcesado!=null){
@@ -46,7 +46,7 @@ public class NodoMaestro extends Thread{
                 }
             }
         } catch (InterruptedException e) {
-            System.out.println("El hilo finalizo exitosamente "+e);
+            
         }
     }
     
