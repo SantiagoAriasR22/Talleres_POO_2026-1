@@ -67,16 +67,6 @@ public class Pantalla extends javax.swing.JFrame {
         });
     }
     
-    private void configurarNodos(int cantidad) {
-        Main.setNodos(cantidad);
-    
-        this.actualizarNodosVisibles(cantidad);
-    
-        Main.control.notificarNodos();
-    
-        System.out.println("Nodos configurados a: " + cantidad);
-    }
-    
     public void estadoVelocidad(String estado){
         SwingUtilities.invokeLater(() -> {
             jLabel10.setText(estado);

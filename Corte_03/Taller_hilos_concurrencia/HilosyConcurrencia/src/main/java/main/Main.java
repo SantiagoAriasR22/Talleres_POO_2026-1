@@ -20,7 +20,7 @@ public class Main {
     private static ArrayList<Mensaje> mensajesTotales=new ArrayList<>();
     private static ArrayList<NodoSecundario> nodosEnEjecucion=new ArrayList<>();
     private static Semaforo semaphore = new Semaforo();
-    static ControlPausaYReinicio control = new ControlPausaYReinicio();
+    private static ControlPausaYReinicio control = new ControlPausaYReinicio();
     private static NodoMaestro maestro;
     private static volatile boolean pausado = true;
     private static Pantalla pantalla = new Pantalla();
