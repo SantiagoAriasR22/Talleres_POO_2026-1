@@ -93,8 +93,9 @@ public class Main {
     
     public static synchronized void restart(){
         pausado=true;
-        pantalla.limpiarBotones();
         pantalla.apagarMensajes();
+        pantalla.limpiarBotones();
+        pantalla.estadoVelocidad("Velocidad de procesamiento: 0ms");
         pantalla.actualizarEstadoPrograma("Esperando por iniciar...");
         killNodos();
         nodosEnEjecucion.clear();
