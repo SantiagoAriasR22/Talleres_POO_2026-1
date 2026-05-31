@@ -4,19 +4,21 @@ package nodos;
 import semaforo.Semaforo;
 import semaforo.ControlPausaYReinicio;
 import main.Main;
+import main.Pantalla;
 
 public class NodoMaestro extends Thread{
     
     private ControlPausaYReinicio control;
     private Semaforo semaphore;
-    private String estado="Disponible";
     private int velocidadProcesamiento;
     private Mensaje mensajeProcesado;
+    private Pantalla pantalla;
     
-    public NodoMaestro(ControlPausaYReinicio control, Semaforo semaphore, int velocidadProcesamiento){
+    public NodoMaestro(ControlPausaYReinicio control, Semaforo semaphore, int velocidadProcesamiento, Pantalla pantalla){
         this.control=control;
         this.semaphore=semaphore;
         this.velocidadProcesamiento=velocidadProcesamiento;
+        this.pantalla=pantalla;
     }
     
     public void setVelocidadProcesamiento(int velocidad){
@@ -26,6 +28,11 @@ public class NodoMaestro extends Thread{
     @Override
     public void run(){
         try {
+            
+            if(pantalla!=null){
+                pantalla.actualizarEstadoMaestro("Disponible");
+            }
+            
             while(!Thread.currentThread().isInterrupted()){
                 try {
                     
@@ -33,11 +40,26 @@ public class NodoMaestro extends Thread{
                     mensajeProcesado=semaphore.retirarMensaje();
                     
                     if(mensajeProcesado!=null){
-                        //System.out.println("Ocupado");
-                        Thread.sleep(velocidadProcesamiento);
-                        Main.setMensajesTotales(mensajeProcesado);
+                        int idNodo = mensajeProcesado.getId();
                         
-                        //System.out.println("Disponible");
+                            
+                        if(idNodo<Main.nodosSecundariosActivos()){
+                            pantalla.actualizarEstadoMaestro("Ocupado");
+                                
+                            if(pantalla != null) {
+                                pantalla.iluminarMensaje(idNodo);
+                            }
+                            
+                            Thread.sleep(velocidadProcesamiento);
+
+                            if(pantalla != null) {
+                                pantalla.apagarMensaje(idNodo);
+                                pantalla.actualizarEstadoMaestro("Disponible");
+                            }
+                        
+                                Main.setMensajesTotales(mensajeProcesado);
+                        }
+                        
                     }
                     
                     

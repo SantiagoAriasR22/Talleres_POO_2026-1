@@ -2,10 +2,10 @@ package semaforo;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 import main.Main;
 import nodos.Mensaje;
+
 
 public class Semaforo {
     
@@ -15,6 +15,7 @@ public class Semaforo {
     private Semaphore semaphoreNodoMaestro = new Semaphore(0); //se encarga de avisarle al nodo maestro que hay mensajes en cola
     private Semaphore semaphoreMensajes = new Semaphore(1); //Evita que dos hilos intenten guardar un mensaje en la misma celda
     private Semaphore[] semaphoreColaEspera; //lleva el conteo de cuantos espacios libre hay en cada cola de espera
+    
     
     public Semaforo(){
         colasEspera= new LinkedList[cantidadNodosSecundarios];
@@ -38,6 +39,7 @@ public class Semaforo {
             semaphoreMensajes.acquire(); //ahora verifica si no hay otro hilo modificando la cola, si es 1 no hay nadie y es libre de modificarlo, si es 0 le toca esperar
             colasEspera[idNodoSecundario].add(message);//agregue el mensaje a la lista enlazada que le corresponde segun el id que lleva
             
+            
             semaphoreNodoMaestro.release(); //avisa al nodo maestro de que hay mensajes en cola
             semaphoreMensajes.release(); //cambia el valor del semaforo para que el hilo que este esperando pueda agregar su mensaje a la cola
             
@@ -58,6 +60,7 @@ public class Semaforo {
                 if(!colasEspera[turno].isEmpty()){ 
                     message=colasEspera[turno].poll(); //quita el primer mensaje que hay en cola y lo asigna a una variable
                     semaphoreColaEspera[turno].release(); //como ya se proceso un mensaje, en la cola se libera un espacio
+                    
                 }
                 turno=(turno+1)%cantidadNodosSecundarios;
             }
@@ -83,6 +86,7 @@ public class Semaforo {
                 colasEspera[i].clear();
                 semaphoreColaEspera[i].drainPermits();  
                 semaphoreColaEspera[i].release(5);
+                
             }
             turno=0;
             semaphoreNodoMaestro.drainPermits(); 

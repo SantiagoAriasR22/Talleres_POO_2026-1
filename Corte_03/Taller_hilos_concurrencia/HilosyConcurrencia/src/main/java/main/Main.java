@@ -20,130 +20,19 @@ public class Main {
     private static ArrayList<Mensaje> mensajesTotales=new ArrayList<>();
     private static ArrayList<NodoSecundario> nodosEnEjecucion=new ArrayList<>();
     private static Semaforo semaphore = new Semaforo();
-    private static ControlPausaYReinicio control = new ControlPausaYReinicio();
+    static ControlPausaYReinicio control = new ControlPausaYReinicio();
     private static NodoMaestro maestro;
     private static volatile boolean pausado = true;
+    private static Pantalla pantalla = new Pantalla();
  
     
     public static void main(String[] args) {
         
         createNodos(); 
         
-        int opcion;
-        
-        do {            
-            opcion=menu();
-            
-            switch (opcion) {
-                case 1: emulator(); break;
-                case 2: options(); break;
-                case 3: SecondaryNode(); break;
-                case 4: records(); break;
-            }
-        } while (opcion!=5);
-        
-    }
-    
-    public static int menu(){
-        
-        int opcion=0;
-        
-        System.out.println("1. Emulator");
-        System.out.println("2. Options");
-        System.out.println("3. Secondary Node");
-        System.out.println("4. Records");
-        System.out.println("5. Salir");
-        
-        System.out.println("Escoja una opcion: ");
-        opcion=sc.nextInt();
-        
-        return opcion;
-    }
-    
-    public static void emulator(){
-        
-        int opcion;
-        
-        do{
-            System.out.println("1. Start");
-            System.out.println("2. Pause");
-            System.out.println("3. Restart");
-            System.out.println("4. Close");
-            
-            System.out.println("Escoja una opcion: ");
-            opcion=sc.nextInt();
-            
-            switch(opcion){
-                case 1: start();break;
-                case 2: pause();break;
-                case 3: restart();break;
-            }
-        }while(opcion!=4);
-    }
-    
-    public static void options(){
-        
-        int opcion;
-        
-        do{
-     
-            System.out.println("1. Very Slow");
-            System.out.println("2. Slow");
-            System.out.println("3. Fast");
-            System.out.println("4. Very Fast");
-            System.out.println("5. Salir");
-            
-            System.out.println("Escoja una opcion: ");
-            opcion=sc.nextInt();
-            
-            switch(opcion){
-                case 1: velocidadProcesamiento=3500; break;
-                case 2: velocidadProcesamiento=2500; break;
-                case 3: velocidadProcesamiento=1500; break;
-                case 4: velocidadProcesamiento=1000; break;
-            }
-            if(opcion>0 && opcion<5){
-                maestro.setVelocidadProcesamiento(velocidadProcesamiento);
-                
-                for(NodoSecundario nodo : nodosEnEjecucion){
-                    nodo.setVelocidadProcesamiento(velocidadProcesamiento);
-                }
-            } 
-        }while(opcion!=5);
-        System.out.println("Se ha actualizado el tiempo de procesamiento");
-        return; 
-    }
-    
-    public static void SecondaryNode(){
-        
-        int opcion;
-        
-        do{
-     
-            System.out.println("1. One");
-            System.out.println("2. Two");
-            System.out.println("3. Three");
-            System.out.println("4. Four");
-            System.out.println("5. Five");
-            System.out.println("6. Salir");
-            
-            System.out.println("Escoja una opcion: ");
-            opcion=sc.nextInt();
-            
-            switch(opcion){
-                case 1: nodosSecundarios=1; break;
-                case 2: nodosSecundarios=2; break;
-                case 3: nodosSecundarios=3; break;
-                case 4: nodosSecundarios=4; break;
-                case 5: nodosSecundarios=5; break;
-            }
-            
-            if(opcion>=1 && opcion<=5){
-                control.notificarNodos();
-                System.out.println("Se cambio la cantidad de nodos activos con exito");
-            }
-            
-        }while(opcion!=6);
+        java.awt.EventQueue.invokeLater(() -> {
+            pantalla.setVisible(true);
+        });
     }
     
     public static synchronized void records(){
@@ -162,24 +51,21 @@ public class Main {
     public static void start(){
         
         if(velocidadProcesamiento==0 || nodosSecundarios==0){
-            System.out.println("Primero indique cuales nodos van a ser activos y la velocidad de procesamiento del nodo maestro");
+            pantalla.validacionValores("Seleccione la velocidad de procesamiento y la cantidad de nodos secundarios para poder iniciar la simulacion");
             return;
         }
         
         pausado=false;
+        pantalla.validacionValores(" ");
+        pantalla.actualizarEstadoPrograma("Corriendo simulacion...");
         control.reanudar();
          
     }
     
     public static void pause(){
-        
-        if(velocidadProcesamiento==0 || nodosSecundarios==0){
-            System.out.println("Primero inicie el proceso de ejecucion");
-            return;
-        }
                     
         pausado=true;
-        System.out.println("Se han pausado los hilos");
+        pantalla.actualizarEstadoPrograma("Simulacion pausada...");
         control.pausar();
     
     }
@@ -193,7 +79,7 @@ public class Main {
             nodosEnEjecucion.add(nodoSecundario);
              
         }
-            maestro = new NodoMaestro(control, semaphore, velocidadProcesamiento);
+            maestro = new NodoMaestro(control, semaphore, velocidadProcesamiento, pantalla);
             maestro.start();
                   
     }
@@ -207,6 +93,9 @@ public class Main {
     
     public static synchronized void restart(){
         pausado=true;
+        pantalla.limpiarBotones();
+        pantalla.apagarMensajes();
+        pantalla.actualizarEstadoPrograma("Esperando por iniciar...");
         killNodos();
         nodosEnEjecucion.clear();
         mensajesTotales.clear(); 
@@ -214,7 +103,6 @@ public class Main {
         velocidadProcesamiento=0;
         nodosSecundarios=0;
         createNodos();
-        System.out.println("Se han reiniciado todos los valores.");
     }
     
     public static int nodosSecundariosActivos(){
@@ -227,18 +115,20 @@ public class Main {
     
     public static synchronized void setMensajesTotales(Mensaje message){
         mensajesTotales.add(message);
-        /*InterfazGrafica.ventana.mostrarMensaje(
-            "ID: " + message.getId()
-            + " Temp: " + message.getTemperatura()
-            + " Humedad: " + message.getHumedad()
-            + "%"
-        );*/
     }
     public static void setVelocidad(int velocidad){
         velocidadProcesamiento = velocidad;
+        
+        maestro.setVelocidadProcesamiento(velocidadProcesamiento);
+                
+        for(NodoSecundario nodo : nodosEnEjecucion){
+            nodo.setVelocidadProcesamiento(velocidadProcesamiento);
+        }  
     }
 
     public static void setNodos(int nodos){
         nodosSecundarios = nodos;
+        control.notificarNodos();
+        pantalla.actualizarNodosVisibles(nodos);
     }
 }

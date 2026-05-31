@@ -15,15 +15,15 @@ public class NodoDestino{
         return temperatura=ThreadLocalRandom.current().nextDouble(0, 60);
     }
     
-    public int doGenerarHumedad(){
+    public double doGenerarHumedad(){
         return humedad=ThreadLocalRandom.current().nextInt(0, 101);
     }
     
-    public int doGenerarLuminiscencia(){
+    public double doGenerarLuminiscencia(){
         return luminiscencia=ThreadLocalRandom.current().nextInt(0, 1001);
     }
     
     public double getTemperatura(){ return doGenerarTemperatura(); }
-    public int getHumedad(){ return doGenerarHumedad(); }
-    public int getLuminiscencia(){ return doGenerarLuminiscencia(); }
+    public double getHumedad(){ return doGenerarHumedad(); }
+    public double getLuminiscencia(){ return doGenerarLuminiscencia(); }
 }

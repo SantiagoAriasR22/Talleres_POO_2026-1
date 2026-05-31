@@ -33,7 +33,7 @@ public class NodoSecundario extends Thread{
                     
                     semaphore.guardarMensaje(message);
                     
-                    Thread.sleep(velocidadProcesamiento-20);
+                    Thread.sleep(velocidadProcesamiento);
                     
                 } catch (RuntimeException e) {
                     System.out.println("Ocurrio un error inesperado "+e);

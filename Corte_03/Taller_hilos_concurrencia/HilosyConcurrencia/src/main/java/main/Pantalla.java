@@ -1,0 +1,616 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+
+package main;
+
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
+/**
+ *
+ * @author W11
+ */
+
+import java.util.List;
+
+public class Pantalla extends javax.swing.JFrame {
+
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Pantalla.class.getName());
+    private JLabel[] etiquetasMensajes;
+    
+
+    /** Creates new form Pantalla */
+    public Pantalla() {
+        initComponents();
+        etiquetasMensajes = new JLabel[]{jLabel2, jLabel3, jLabel4, jLabel5, jLabel6};
+        actualizarNodosVisibles(0);
+        limpiarBotones();
+    }
+    
+    public void limpiarBotones(){
+        buttonGroup1.clearSelection();
+        buttonGroup2.clearSelection(); 
+        buttonGroup3.clearSelection();
+        buttonGroup4.clearSelection();
+    }
+    
+    public void actualizarNodosVisibles(int cantidadNodos) {
+        for (int i = 0; i < etiquetasMensajes.length; i++) {
+            if (i < cantidadNodos) {
+                etiquetasMensajes[i].setVisible(true);
+            } else {
+                etiquetasMensajes[i].setVisible(false);
+            }
+        }
+    }
+    
+    public void iluminarMensaje(int idNodo) {
+        SwingUtilities.invokeLater(() -> {
+            etiquetasMensajes[idNodo].setBackground(Color.GREEN); 
+            etiquetasMensajes[idNodo].setOpaque(true); 
+            etiquetasMensajes[idNodo].repaint();
+        });
+    }
+    
+    public void apagarMensaje(int idNodo) {
+        SwingUtilities.invokeLater(() -> {
+            etiquetasMensajes[idNodo].setBackground(new Color(240, 240, 240)); 
+            etiquetasMensajes[idNodo].setOpaque(true);
+            etiquetasMensajes[idNodo].repaint();
+        });
+    }
+    
+    private void configurarNodos(int cantidad) {
+        Main.setNodos(cantidad);
+    
+        this.actualizarNodosVisibles(cantidad);
+    
+        Main.control.notificarNodos();
+    
+        System.out.println("Nodos configurados a: " + cantidad);
+    }
+    
+    public void estadoVelocidad(String estado){
+        SwingUtilities.invokeLater(() -> {
+            jLabel10.setText(estado);
+        });
+    }
+    
+    public void actualizarEstadoMaestro(String estado) {
+        SwingUtilities.invokeLater(() -> {
+            jLabel7.setText(estado);
+
+            if (estado.equals("Ocupado")) {
+                jLabel7.setForeground(Color.RED);
+            } else {
+                jLabel7.setForeground(new Color(0, 153, 0)); 
+            }
+        });
+    }
+    
+    public void actualizarEstadoPrograma(String estado){
+        SwingUtilities.invokeLater(() -> {
+            jLabel8.setText(estado);
+        });
+    }
+    
+    public void validacionValores(String estado){
+        SwingUtilities.invokeLater(() -> {
+            jLabel9.setText(estado);
+        });
+    }
+    
+    public void apagarMensajes(){
+        
+        for(int i=0; i<5; i++){
+            apagarMensaje(i);
+        }
+    }
+    
+    @Override
+    public void paint(java.awt.Graphics g) {
+    
+        super.paint(g); 
+    
+        try {
+            java.net.URL urlImagen = getClass().getResource("/escudoUniversidad.png");
+        
+            if (urlImagen != null) {
+                ImageIcon icono = new ImageIcon(urlImagen);
+                Image imagen = icono.getImage();
+            
+                if (imagen != null) {
+                    Graphics2D g2d = (Graphics2D) g;
+                
+                
+                    g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.20f));
+                
+                
+                    int anchoReal = icono.getIconWidth();
+                    int altoReal = icono.getIconHeight();
+                
+               
+                    int anchoDeseado = 450; 
+                
+                
+                    int altoDeseado = (anchoDeseado * altoReal) / anchoReal;
+                
+                
+                    int x = (this.getWidth() - anchoDeseado) / 2;  
+                
+                
+                    int y = ((this.getHeight() - altoDeseado) / 2) + 30; 
+                
+                
+                    g2d.drawImage(imagen, x, y, anchoDeseado, altoDeseado, this);
+                
+               
+                    g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error al pintar: " + e.getMessage());
+        }
+    }
+
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem3 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem4 = new javax.swing.JRadioButtonMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jRadioButtonMenuItem5 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem6 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem7 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem8 = new javax.swing.JRadioButtonMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jRadioButtonMenuItem9 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem10 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem11 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem12 = new javax.swing.JRadioButtonMenuItem();
+        jRadioButtonMenuItem13 = new javax.swing.JRadioButtonMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jRadioButtonMenuItem14 = new javax.swing.JRadioButtonMenuItem();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Master Node", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Monospaced", 1, 18))); // NOI18N
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel7.setFont(new java.awt.Font("Monospaced", 2, 14)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Disponible");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 24)); // NOI18N
+        jLabel1.setText("←");
+
+        jLabel2.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel2.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("m1");
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel3.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("m2");
+        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel4.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("m3");
+        jLabel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel5.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("m4");
+        jLabel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel6.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("m5");
+        jLabel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        jLabel10.setFont(new java.awt.Font("Monospaced", 2, 14)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel10.setText("Velocidad de procesamiento: 0");
+
+        jLabel8.setFont(new java.awt.Font("Monospaced", 2, 14)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel8.setText("Esperando por iniciar...");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(619, 619, 619))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(367, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addGap(1, 1, 1)
+                .addComponent(jLabel8))
+        );
+
+        jLabel9.setFont(new java.awt.Font("Monospaced", 3, 14)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 6, Short.MAX_VALUE)
+        );
+
+        jMenu3.setText("Emulator");
+        jMenu3.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+
+        buttonGroup1.add(jRadioButtonMenuItem1);
+        jRadioButtonMenuItem1.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem1.setText("Start");
+        jRadioButtonMenuItem1.addActionListener(this::jRadioButtonMenuItem1ActionPerformed);
+        jMenu3.add(jRadioButtonMenuItem1);
+
+        buttonGroup1.add(jRadioButtonMenuItem2);
+        jRadioButtonMenuItem2.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem2.setText("Pause");
+        jRadioButtonMenuItem2.addActionListener(this::jRadioButtonMenuItem2ActionPerformed);
+        jMenu3.add(jRadioButtonMenuItem2);
+
+        buttonGroup1.add(jRadioButtonMenuItem3);
+        jRadioButtonMenuItem3.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem3.setText("Restart");
+        jRadioButtonMenuItem3.addActionListener(this::jRadioButtonMenuItem3ActionPerformed);
+        jMenu3.add(jRadioButtonMenuItem3);
+
+        buttonGroup1.add(jRadioButtonMenuItem4);
+        jRadioButtonMenuItem4.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem4.setText("Close");
+        jRadioButtonMenuItem4.addActionListener(this::jRadioButtonMenuItem4ActionPerformed);
+        jMenu3.add(jRadioButtonMenuItem4);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu1.setText("Options");
+        jMenu1.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+
+        jMenu2.setText("Speed");
+        jMenu2.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+
+        buttonGroup2.add(jRadioButtonMenuItem5);
+        jRadioButtonMenuItem5.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem5.setSelected(true);
+        jRadioButtonMenuItem5.setText("Very slow");
+        jRadioButtonMenuItem5.addActionListener(this::jRadioButtonMenuItem5ActionPerformed);
+        jMenu2.add(jRadioButtonMenuItem5);
+
+        buttonGroup2.add(jRadioButtonMenuItem6);
+        jRadioButtonMenuItem6.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem6.setText("Slow");
+        jRadioButtonMenuItem6.addActionListener(this::jRadioButtonMenuItem6ActionPerformed);
+        jMenu2.add(jRadioButtonMenuItem6);
+
+        buttonGroup2.add(jRadioButtonMenuItem7);
+        jRadioButtonMenuItem7.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem7.setText("Fast");
+        jRadioButtonMenuItem7.addActionListener(this::jRadioButtonMenuItem7ActionPerformed);
+        jMenu2.add(jRadioButtonMenuItem7);
+
+        buttonGroup2.add(jRadioButtonMenuItem8);
+        jRadioButtonMenuItem8.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem8.setText("Very fast");
+        jRadioButtonMenuItem8.addActionListener(this::jRadioButtonMenuItem8ActionPerformed);
+        jMenu2.add(jRadioButtonMenuItem8);
+
+        jMenu1.add(jMenu2);
+
+        jMenu5.setText("Secundary nodes");
+        jMenu5.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+
+        buttonGroup3.add(jRadioButtonMenuItem9);
+        jRadioButtonMenuItem9.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem9.setSelected(true);
+        jRadioButtonMenuItem9.setText("One");
+        jRadioButtonMenuItem9.addActionListener(this::jRadioButtonMenuItem9ActionPerformed);
+        jMenu5.add(jRadioButtonMenuItem9);
+
+        buttonGroup3.add(jRadioButtonMenuItem10);
+        jRadioButtonMenuItem10.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem10.setText("Two");
+        jRadioButtonMenuItem10.addActionListener(this::jRadioButtonMenuItem10ActionPerformed);
+        jMenu5.add(jRadioButtonMenuItem10);
+
+        buttonGroup3.add(jRadioButtonMenuItem11);
+        jRadioButtonMenuItem11.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem11.setText("Three");
+        jRadioButtonMenuItem11.addActionListener(this::jRadioButtonMenuItem11ActionPerformed);
+        jMenu5.add(jRadioButtonMenuItem11);
+
+        buttonGroup3.add(jRadioButtonMenuItem12);
+        jRadioButtonMenuItem12.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem12.setText("Four");
+        jRadioButtonMenuItem12.addActionListener(this::jRadioButtonMenuItem12ActionPerformed);
+        jMenu5.add(jRadioButtonMenuItem12);
+
+        buttonGroup3.add(jRadioButtonMenuItem13);
+        jRadioButtonMenuItem13.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem13.setText("Five");
+        jRadioButtonMenuItem13.addActionListener(this::jRadioButtonMenuItem13ActionPerformed);
+        jMenu5.add(jRadioButtonMenuItem13);
+
+        jMenu1.add(jMenu5);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu4.setText("Records");
+        jMenu4.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+
+        buttonGroup4.add(jRadioButtonMenuItem14);
+        jRadioButtonMenuItem14.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jRadioButtonMenuItem14.setSelected(true);
+        jRadioButtonMenuItem14.setText("Show analytics");
+        jMenu4.add(jRadioButtonMenuItem14);
+
+        jMenuBar1.add(jMenu4);
+
+        setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jRadioButtonMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem1ActionPerformed
+        Main.start();        // TODO add your handling code here
+    }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
+
+    private void jRadioButtonMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem2ActionPerformed
+        Main.pause();
+    }//GEN-LAST:event_jRadioButtonMenuItem2ActionPerformed
+
+    private void jRadioButtonMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem4ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jRadioButtonMenuItem4ActionPerformed
+
+    private void jRadioButtonMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem3ActionPerformed
+        Main.restart();
+        actualizarNodosVisibles(0);
+    }//GEN-LAST:event_jRadioButtonMenuItem3ActionPerformed
+
+    private void jRadioButtonMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem5ActionPerformed
+        Main.setVelocidad(3500);
+        estadoVelocidad("Velocidad de procesamiento: 3500ms");// TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButtonMenuItem5ActionPerformed
+
+    private void jRadioButtonMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem10ActionPerformed
+        Main.setNodos(2);      // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButtonMenuItem10ActionPerformed
+
+    private void jRadioButtonMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem13ActionPerformed
+        Main.setNodos(5);        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButtonMenuItem13ActionPerformed
+
+    private void jRadioButtonMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem6ActionPerformed
+        Main.setVelocidad(2500); 
+        estadoVelocidad("Velocidad de procesamiento: 2500ms");// TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButtonMenuItem6ActionPerformed
+
+    private void jRadioButtonMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem7ActionPerformed
+        Main.setVelocidad(1500);
+        estadoVelocidad("Velocidad de procesamiento: 1500ms");        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButtonMenuItem7ActionPerformed
+
+    private void jRadioButtonMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem8ActionPerformed
+        Main.setVelocidad(1000); 
+        estadoVelocidad("Velocidad de procesamiento: 1000ms");// TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButtonMenuItem8ActionPerformed
+
+    private void jRadioButtonMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem9ActionPerformed
+        Main.setNodos(1);        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButtonMenuItem9ActionPerformed
+
+    private void jRadioButtonMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem11ActionPerformed
+        Main.setNodos(3);        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButtonMenuItem11ActionPerformed
+
+    private void jRadioButtonMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem12ActionPerformed
+        Main.setNodos(4);        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButtonMenuItem12ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new Pantalla().setVisible(true));
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem10;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem11;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem12;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem13;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem14;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem3;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem4;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem5;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem6;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem7;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem8;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem9;
+    // End of variables declaration//GEN-END:variables
+
+}
