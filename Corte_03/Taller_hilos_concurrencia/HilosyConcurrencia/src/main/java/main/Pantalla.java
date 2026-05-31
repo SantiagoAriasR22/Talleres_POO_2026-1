@@ -32,6 +32,8 @@ public class Pantalla extends javax.swing.JFrame {
         etiquetasMensajes = new JLabel[]{jLabel2, jLabel3, jLabel4, jLabel5, jLabel6};
         actualizarNodosVisibles(0);
         limpiarBotones();
+        jRadioButtonMenuItem14.addActionListener(this::jRadioButtonMenuItem14ActionPerformed);
+    
     }
     
     public void limpiarBotones(){
@@ -537,6 +539,53 @@ public class Pantalla extends javax.swing.JFrame {
         Main.setNodos(4);        // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButtonMenuItem12ActionPerformed
 
+    private void jRadioButtonMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {         
+        Main.pause(); 
+        Main.records(); 
+        int total = Main.getTotalMensajes();
+        
+        long tiempoFinal = System.nanoTime();
+        double segundos = (tiempoFinal - Main.getTiempoInicial()) / 1000000000.0;
+
+        String reporteText;
+      
+        if (total > 0) {
+            reporteText = String.format(
+                "==================================\n" +
+                "      ESTADÍSTICAS GLOBALES       \n" +
+                "==================================\n\n" +
+                "📊 MENSAJES PROCESADOS POR NODO:\n" +
+                "   • Nodo 1: %d mensajes\n" +
+                "   • Nodo 2: %d mensajes\n" +
+                "   • Nodo 3: %d mensajes\n" +
+                "   • Nodo 4: %d mensajes\n" +
+                "   • Nodo 5: %d mensajes\n\n" +
+                "📈 TOTAL GENERAL: %d mensajes\n\n" +
+                "🌡️ PROMEDIOS HISTÓRICOS:\n" +
+                "   • Temperatura: %.2f °C\n" +
+                "   • Humedad: %.2f %%\n" +
+                "   • Luminiscencia: %.2f lux\n\n" +
+                "⚙️ ESTADO DEL SISTEMA:\n" +
+                "   • Tiempo total de ejecución: %.2f segundos\n" +
+                "   • Cantidad de reinicios: %d\n",
+                Main.getMensajesN1(), Main.getMensajesN2(), Main.getMensajesN3(), Main.getMensajesN4(), Main.getMensajesN5(), total,
+                (Main.getTotTemperatura() / total), (Main.getTotHumedad() / total), (Main.getTotLumniscencia() / total),
+                segundos, Main.getCantReinicios()
+            );
+        } else {
+            reporteText = String.format(
+                "Aún no existen registros en la simulación.\n" +
+                "Tiempo transcurrido del sistema: %.2f s", segundos
+            );
+        }
+
+        javax.swing.JOptionPane.showMessageDialog(
+            this, 
+            reporteText, 
+            "Historial y Récords de Simulación", 
+            javax.swing.JOptionPane.INFORMATION_MESSAGE
+        );
+    }
     /**
      * @param args the command line arguments
      */

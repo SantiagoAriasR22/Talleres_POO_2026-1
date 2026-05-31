@@ -3,7 +3,13 @@
 -ANGEL DANIEL MERCHAN VILLAMIZAR 0222510035
 -DAVID SANTIAGO ARIAS ROJAS 0222510022*/
 package main;
-
+//cantidad mensaje por nodo
+//total de mensajes procesados
+//cantidad de reinicios
+//nodos activados 
+//cant reinicios
+//promedio temp, lum, hum
+//tiempo ejecucion
 import java.util.ArrayList;
 import java.util.Scanner;
 import nodos.Mensaje;
@@ -24,7 +30,18 @@ public class Main {
     private static NodoMaestro maestro;
     private static volatile boolean pausado = true;
     private static Pantalla pantalla = new Pantalla();
- 
+    private static int mensajesN1=0;
+    private static int mensajesN2=0;
+    private static int mensajesN3=0;
+    private static int mensajesN4=0;
+    private static int mensajesN5=0;
+    private static double totLumniscencia=0;
+    private static double totTemperatura=0;
+    private static double totHumedad=0;
+    private static int cantReinicios=0;
+    private static long tiempoInicial=System.nanoTime();
+    private static long tiempoFinal;
+    private static int totalMensajes=0;
     
     public static void main(String[] args) {
         
@@ -44,8 +61,35 @@ public class Main {
         for(Mensaje message: mensajesTotales){
             
             System.out.println("ID: "+ (message.getId()+1) +" Temperatura: "+message.getTemperatura()+" Humedad: "+message.getHumedad()+"%"+" Luminiscencia: "+message.getLuminiscencia());
+            
+            totLumniscencia+=message.getLuminiscencia();
+            totHumedad+=message.getHumedad();
+            totTemperatura+=message.getTemperatura();
+            switch(message.getId()){
+                case 0: mensajesN1++;  break;
+                case 1: mensajesN2++; break;
+                case 2: mensajesN3++; break;
+                case 3: mensajesN4++; break;
+                case 4: mensajesN5++; break;
+            }
         }
+        totalMensajes+=mensajesTotales.size();
+            System.out.println("==========Stats==========");
+            System.out.println("Cantidad de menasajes enviados por cada nodo ");
+            System.out.println("Nodo 1 "+mensajesN1);
+            System.out.println("Nodo 2 "+mensajesN2);
+            System.out.println("Nodo 3 "+mensajesN3);
+            System.out.println("Nodo 4 "+mensajesN4);
+            System.out.println("Nodo 5 "+mensajesN5);
+            System.out.println("Total de mensajes enviados "+totalMensajes);
+            System.out.println("Promedios de ");
+            System.out.println("Temperatura "+totTemperatura/totalMensajes);
+            System.out.println("Humedad "+totHumedad/totalMensajes);
+            System.out.println("Luminiscencia "+totLumniscencia/totalMensajes);
+            tiempoFinal=System.nanoTime();
+            System.out.println("Tiempo de ejecucion "+ (tiempoFinal-tiempoInicial)/1000.0+"s");
         
+
     }
     
     public static void start(){
@@ -93,6 +137,7 @@ public class Main {
     
     public static synchronized void restart(){
         pausado=true;
+        totalMensajes+=mensajesTotales.size();
         pantalla.apagarMensajes();
         pantalla.limpiarBotones();
         pantalla.estadoVelocidad("Velocidad de procesamiento: 0ms");
@@ -103,6 +148,16 @@ public class Main {
         semaphore.limpiarColaMensajes();
         velocidadProcesamiento=0;
         nodosSecundarios=0;
+        cantReinicios++;
+        mensajesN1=0;
+        mensajesN2=0;
+        mensajesN3=0;
+        mensajesN4=0;
+        mensajesN5=0;
+        totLumniscencia=0;
+        totTemperatura=0;
+        totHumedad=0;
+        totalMensajes=0;
         createNodos();
     }
     
@@ -132,4 +187,16 @@ public class Main {
         control.notificarNodos();
         pantalla.actualizarNodosVisibles(nodos);
     }
+    //getters
+    public static int getTotalMensajes() { return totalMensajes; }
+public static long getTiempoInicial() { return tiempoInicial; }
+public static int getMensajesN1() { return mensajesN1; }
+public static int getMensajesN2() { return mensajesN2; }
+public static int getMensajesN3() { return mensajesN3; }
+public static int getMensajesN4() { return mensajesN4; }
+public static int getMensajesN5() { return mensajesN5; }
+public static double getTotTemperatura() { return totTemperatura; }
+public static double getTotHumedad() { return totHumedad; }
+public static double getTotLumniscencia() { return totLumniscencia; }
+public static int getCantReinicios() { return cantReinicios; }
 }
