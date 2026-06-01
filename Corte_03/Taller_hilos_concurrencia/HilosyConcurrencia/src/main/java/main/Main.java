@@ -58,6 +58,15 @@ public class Main {
             System.out.println("Aun no existe ningun registro.");
             return; 
         }
+            mensajesN1=0;
+            mensajesN2=0;
+            mensajesN3=0;
+            mensajesN4=0;
+            mensajesN5=0;
+            totHumedad=0;
+            totHumedad=0;
+            totLumniscencia=0;
+            totTemperatura=0; 
         for(Mensaje message: mensajesTotales){
             
             System.out.println("ID: "+ (message.getId()+1) +" Temperatura: "+message.getTemperatura()+" Humedad: "+message.getHumedad()+"%"+" Luminiscencia: "+message.getLuminiscencia());
@@ -73,7 +82,7 @@ public class Main {
                 case 4: mensajesN5++; break;
             }
         }
-        totalMensajes+=mensajesTotales.size();
+            totalMensajes=mensajesTotales.size();
             System.out.println("==========Stats==========");
             System.out.println("Cantidad de menasajes enviados por cada nodo ");
             System.out.println("Nodo 1 "+mensajesN1);
