@@ -146,7 +146,7 @@ public class Main {
     
     public static synchronized void restart(){
         pausado=true;
-        totalMensajes+=mensajesTotales.size();
+        totalMensajes=mensajesTotales.size();
         pantalla.apagarMensajes();
         pantalla.limpiarBotones();
         pantalla.estadoVelocidad("Velocidad de procesamiento: 0ms");
