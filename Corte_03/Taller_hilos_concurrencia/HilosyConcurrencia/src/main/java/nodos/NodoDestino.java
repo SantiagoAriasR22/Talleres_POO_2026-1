@@ -6,8 +6,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class NodoDestino{
     
     private double temperatura;
-    private int  humedad;
-    private int luminiscencia;
+    private double  humedad;
+    private double luminiscencia;
     
     public NodoDestino(){}
     

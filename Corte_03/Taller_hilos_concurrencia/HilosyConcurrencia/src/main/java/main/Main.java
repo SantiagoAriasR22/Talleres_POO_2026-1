@@ -67,6 +67,7 @@ public class Main {
             totHumedad=0;
             totLumniscencia=0;
             totTemperatura=0; 
+            
         for(Mensaje message: mensajesTotales){
             
             System.out.println("ID: "+ (message.getId()+1) +" Temperatura: "+message.getTemperatura()+" Humedad: "+message.getHumedad()+"%"+" Luminiscencia: "+message.getLuminiscencia());
@@ -97,8 +98,7 @@ public class Main {
             System.out.println("Luminiscencia "+totLumniscencia/totalMensajes);
             tiempoFinal=System.nanoTime();
             System.out.println("Tiempo de ejecucion "+ (tiempoFinal-tiempoInicial)/1000.0+"s");
-        
-
+       
     }
     
     public static void start(){
@@ -210,4 +210,5 @@ public class Main {
     public static double getTotHumedad() { return totHumedad; }
     public static double getTotLumniscencia() { return totLumniscencia; }
     public static int getCantReinicios() { return cantReinicios; }
+    public static ArrayList<Mensaje> getMensajesTotales(){ return mensajesTotales; }
 }

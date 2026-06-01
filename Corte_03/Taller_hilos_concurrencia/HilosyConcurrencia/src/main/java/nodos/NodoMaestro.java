@@ -41,8 +41,7 @@ public class NodoMaestro extends Thread{
                     
                     if(mensajeProcesado!=null){
                         int idNodo = mensajeProcesado.getId();
-                        
-                            
+        
                         if(idNodo<Main.nodosSecundariosActivos()){
                             pantalla.actualizarEstadoMaestro("Ocupado");
                                 
@@ -57,7 +56,7 @@ public class NodoMaestro extends Thread{
                                 pantalla.actualizarEstadoMaestro("Disponible");
                             }
                         
-                                Main.setMensajesTotales(mensajeProcesado);
+                            Main.setMensajesTotales(mensajeProcesado);
                         }
                         
                     }
