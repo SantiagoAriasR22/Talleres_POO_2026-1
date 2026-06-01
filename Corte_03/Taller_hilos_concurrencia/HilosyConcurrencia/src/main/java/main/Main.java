@@ -184,7 +184,9 @@ public class Main {
     public static void setVelocidad(int velocidad){
         velocidadProcesamiento = velocidad;
         
-        maestro.setVelocidadProcesamiento(velocidadProcesamiento);
+        if(maestro!=null){
+            maestro.setVelocidadProcesamiento(velocidadProcesamiento);
+        }
                 
         for(NodoSecundario nodo : nodosEnEjecucion){
             nodo.setVelocidadProcesamiento(velocidadProcesamiento);
@@ -198,14 +200,14 @@ public class Main {
     }
     //getters
     public static int getTotalMensajes() { return totalMensajes; }
-public static long getTiempoInicial() { return tiempoInicial; }
-public static int getMensajesN1() { return mensajesN1; }
-public static int getMensajesN2() { return mensajesN2; }
-public static int getMensajesN3() { return mensajesN3; }
-public static int getMensajesN4() { return mensajesN4; }
-public static int getMensajesN5() { return mensajesN5; }
-public static double getTotTemperatura() { return totTemperatura; }
-public static double getTotHumedad() { return totHumedad; }
-public static double getTotLumniscencia() { return totLumniscencia; }
-public static int getCantReinicios() { return cantReinicios; }
+    public static long getTiempoInicial() { return tiempoInicial; }
+    public static int getMensajesN1() { return mensajesN1; }
+    public static int getMensajesN2() { return mensajesN2; }
+    public static int getMensajesN3() { return mensajesN3; }
+    public static int getMensajesN4() { return mensajesN4; }
+    public static int getMensajesN5() { return mensajesN5; }
+    public static double getTotTemperatura() { return totTemperatura; }
+    public static double getTotHumedad() { return totHumedad; }
+    public static double getTotLumniscencia() { return totLumniscencia; }
+    public static int getCantReinicios() { return cantReinicios; }
 }
