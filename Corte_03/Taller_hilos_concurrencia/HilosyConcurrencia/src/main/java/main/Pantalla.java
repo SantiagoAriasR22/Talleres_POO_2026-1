@@ -560,23 +560,26 @@ public class Pantalla extends javax.swing.JFrame {
       
         if (total > 0) {
             reporteText = String.format(
-                "==================================\n" +
-                "      ESTADÍSTICAS GLOBALES       \n" +
-                "==================================\n\n" +
-                "📊 MENSAJES PROCESADOS POR NODO:\n" +
-                "   • Nodo 1: %d mensajes\n" +
-                "   • Nodo 2: %d mensajes\n" +
-                "   • Nodo 3: %d mensajes\n" +
-                "   • Nodo 4: %d mensajes\n" +
-                "   • Nodo 5: %d mensajes\n\n" +
-                "📈 TOTAL GENERAL: %d mensajes\n\n" +
-                "🌡️ PROMEDIOS HISTÓRICOS:\n" +
-                "   • Temperatura: %.2f °C\n" +
-                "   • Humedad: %.2f %%\n" +
-                "   • Luminiscencia: %.2f lux\n\n" +
-                "⚙️ ESTADO DEL SISTEMA:\n" +
-                "   • Tiempo total de ejecución: %.2f segundos\n" +
-                "   • Cantidad de reinicios: %d\n",
+                "NOTA: Las estadisticas que se muestran a continuacion son del momento\n" +
+                "en que se da el click.Ten en cuenta que un mensaje tiene que haber \n" +
+                "sido PROCESADO para ser tenido en cuenta para estas estadisticas.\n" +
+                "\n               ==========================================\n" +
+                "                                       ESTADÍSTICAS GLOBALES       \n" +
+                "                 ========================================\n\n" +
+                "                      📊 MENSAJES PROCESADOS POR NODO:\n" +
+                "                         • Nodo 1: %d mensajes\n" +
+                "                         • Nodo 2: %d mensajes\n" +
+                "                         • Nodo 3: %d mensajes\n" +
+                "                         • Nodo 4: %d mensajes\n" +
+                "                         • Nodo 5: %d mensajes\n\n" +
+                "                      📈 TOTAL GENERAL: %d mensajes\n\n" +
+                "                      🌡️ PROMEDIOS DE LA SIMULACION:\n" +
+                "                         • Temperatura: %.2f °C\n" +
+                "                         • Humedad: %.2f %%\n" +
+                "                         • Luminiscencia: %.2f lux\n\n" +
+                "                      ⚙️ ESTADO DEL SISTEMA:\n" +
+                "                         • Tiempo total de ejecución: %.2f segundos\n" +
+                "                         • Cantidad de reinicios: %d\n",
                 Main.getMensajesN1(), Main.getMensajesN2(), Main.getMensajesN3(), Main.getMensajesN4(), Main.getMensajesN5(), total,
                 (Main.getTotTemperatura() / total), (Main.getTotHumedad() / total), (Main.getTotLumniscencia() / total),
                 segundos, Main.getCantReinicios()
