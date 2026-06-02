@@ -579,7 +579,7 @@ public class Pantalla extends javax.swing.JFrame {
                 "                      🌡️ PROMEDIOS DE LA SIMULACION:\n" +
                 "                         • Temperatura: %.2f °C\n" +
                 "                         • Humedad: %.2f %%\n" +
-                "                         • Luminiscencia: %.2f lux\n\n" +
+                "                         • Luminiscencia: %.2f lx\n\n" +
                 "                      ⚙️ ESTADO DEL SISTEMA:\n" +
                 "                         • Tiempo total de ejecución: %.2f segundos\n" +
                 "                         • Cantidad de reinicios: %d\n",
