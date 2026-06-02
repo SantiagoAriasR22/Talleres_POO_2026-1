@@ -3,13 +3,6 @@
 -ANGEL DANIEL MERCHAN VILLAMIZAR 0222510035
 -DAVID SANTIAGO ARIAS ROJAS 0222510022*/
 package main;
-//cantidad mensaje por nodo
-//total de mensajes procesados
-//cantidad de reinicios
-//nodos activados 
-//cant reinicios
-//promedio temp, lum, hum
-//tiempo ejecucion
 import java.util.ArrayList;
 import java.util.Scanner;
 import nodos.Mensaje;
@@ -54,8 +47,7 @@ public class Main {
     
     public static synchronized void records(){
         
-        if(mensajesTotales.isEmpty()){
-            System.out.println("Aun no existe ningun registro.");
+        if(mensajesTotales.isEmpty()){    
             return; 
         }
             mensajesN1=0;
@@ -69,9 +61,6 @@ public class Main {
             totTemperatura=0; 
             
         for(Mensaje message: mensajesTotales){
-            
-            System.out.println("ID: "+ (message.getId()+1) +" Temperatura: "+message.getTemperatura()+" Humedad: "+message.getHumedad()+"%"+" Luminiscencia: "+message.getLuminiscencia());
-            
             totLumniscencia+=message.getLuminiscencia();
             totHumedad+=message.getHumedad();
             totTemperatura+=message.getTemperatura();
@@ -84,21 +73,7 @@ public class Main {
             }
         }
             totalMensajes=mensajesTotales.size();
-            System.out.println("==========Stats==========");
-            System.out.println("Cantidad de menasajes enviados por cada nodo ");
-            System.out.println("Nodo 1 "+mensajesN1);
-            System.out.println("Nodo 2 "+mensajesN2);
-            System.out.println("Nodo 3 "+mensajesN3);
-            System.out.println("Nodo 4 "+mensajesN4);
-            System.out.println("Nodo 5 "+mensajesN5);
-            System.out.println("Total de mensajes enviados "+totalMensajes);
-            System.out.println("Promedios de ");
-            System.out.println("Temperatura "+totTemperatura/totalMensajes);
-            System.out.println("Humedad "+totHumedad/totalMensajes);
-            System.out.println("Luminiscencia "+totLumniscencia/totalMensajes);
             tiempoFinal=System.nanoTime();
-            System.out.println("Tiempo de ejecucion "+ (tiempoFinal-tiempoInicial)/1000.0+"s");
-       
     }
     
     public static void start(){

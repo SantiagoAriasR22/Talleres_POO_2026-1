@@ -1,6 +1,9 @@
 
 package main;
-
+/*ELABORADO POR
+-ALEX DAVID FLOREZ CERRO 0222510031
+-ANGEL DANIEL MERCHAN VILLAMIZAR 0222510035
+-DAVID SANTIAGO ARIAS ROJAS 0222510022*/
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
